@@ -253,6 +253,83 @@ button { touch-action: manipulation; }
 .intro-card small { color: var(--muted); }
 footer { background: #141e20; border-color: #3a4a46; }
 
+.game-shell:has(#play:not([hidden])) {
+  display: block;
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  background: linear-gradient(90deg, #0b1116e8, #15201ed1), var(--city-art) center / cover;
+}
+.game-shell:has(#play:not([hidden])) > aside { display: none; }
+.game-shell:has(#play:not([hidden])) .game-workspace { width: min(1050px, 100%); margin-inline: auto; }
+.game-shell #play {
+  padding: clamp(14px, 3vw, 38px);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.forensics {
+  display: grid;
+  grid-template-columns: minmax(235px, 325px) minmax(0, 1fr);
+  align-items: start;
+  justify-content: center;
+  gap: clamp(20px, 5vw, 66px);
+}
+.evidence-phone {
+  overflow: hidden;
+  border: 8px solid #0b1014;
+  border-radius: 28px;
+  background: #f6f2e8;
+  color: #152128;
+  box-shadow: 0 0 0 1px #5b6965, 0 18px 36px #0009;
+}
+.phone-top { display: flex; justify-content: space-between; padding: 10px 15px; background: #19252a; color: #f6edd6; font: 700 .7rem var(--mono); }
+.hotspot {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 13px 14px;
+  border: 0;
+  border-bottom: 1px solid #c7cbc3;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+.hotspot:hover, .hotspot[aria-pressed="true"] { background: #f3dfa9; }
+.hotspot:focus-visible, .hotspot[aria-pressed="true"] { outline: 3px solid #a5462d; outline-offset: -3px; }
+.hotspot.found::after { position: absolute; right: 6px; top: 6px; padding: 2px 5px; background: #193d33; color: #fff; content: '✓'; }
+.phone-profile { display: flex; align-items: center; gap: 9px; }
+.phone-profile small { display: block; color: #4e6367; }
+.network-avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #28505a; color: #fff4db; font-weight: 900; }
+.phone-photo { aspect-ratio: 640 / 273; padding: 0; overflow: hidden; }
+.phone-photo img { display: block; width: 100%; }
+.photo-loupe { position: absolute; bottom: 7px; right: 7px; padding: 2px 7px; border-radius: 3px; background: #13282e; color: #fff4db; }
+.phone-caption strong { display: block; color: #9e3220; }
+.phone-reactions { display: flex; gap: 16px; font-weight: 700; }
+.forensics-board {
+  padding: clamp(14px, 3vw, 25px);
+  border: 1px solid #947650;
+  background: repeating-linear-gradient(0deg, #2a2821 0 26px, #393328 27px);
+  box-shadow: 4px 5px 0 #0d1213;
+}
+.forensics-board h3 { margin-bottom: 7px; font: 700 clamp(1.15rem, 3vw, 1.75rem) Georgia, serif; }
+.forensics-board #evidence-detail { margin-bottom: 12px; color: var(--muted); }
+.photo-archive { margin-bottom: 12px; }
+.photo-archive figure { margin: 0; }
+.photo-archive img { display: block; width: min(100%, 280px); }
+.photo-archive figcaption { margin-top: 4px; font-size: .79rem; }
+.dossier { margin-top: 18px; padding-top: 14px; border-top: 1px dashed #a48659; }
+#dossier-slots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; padding: 0; list-style: none; }
+#dossier-slots li { padding: 7px 4px; border: 1px dashed #987951; color: #edc384; text-align: center; font: 700 .75rem var(--mono); }
+#dossier-slots .pinned { border-style: solid; background: #e8d4a4; color: #322722; }
+.dossier .primary { margin-top: 12px; }
+
+@media (max-width: 580px) {
+  .forensics { grid-template-columns: 1fr; }
+  .evidence-phone { width: min(100%, 325px); justify-self: center; }
+}
+
 @media (max-width: 1050px) {
   .game-shell { grid-template-columns: 190px minmax(0, 1fr); }
   .field-dialogue { grid-column: 2; display: grid; grid-template-columns: 120px 1fr; }

@@ -472,30 +472,60 @@ const evidence = [
 function investigate() {
   const inspected = new Set();
   const pinned = new Set();
-  let selected = 0;
+  let selected = null;
+  let compared = false;
   stage.innerHTML = `
-    <article class="post-card">
-      <p class="kicker">Publicação simulada · Radar Agora</p>
-      <h3>URGENTE: o aviso mudou. Compartilhe antes que apaguem!</h3>
-      <p>Abra os detalhes do post e fixe no dossiê as pistas que ajudam a verificar o aviso.</p>
-    </article>
-    <div class="clues evidence-grid">${evidence.map(({ label }, index) =>
-      '<button type="button" data-evidence="' + index + '" aria-pressed="false">' + label + '</button>').join('')}</div>
-    <article class="game-card">
-      <h3 id="evidence-title"></h3>
-      <p id="evidence-detail" aria-live="polite"></p>
-      <button class="choice-action" id="pin">Fixar pista</button>
-    </article>
-    <p class="stage-tip" id="dossier-count"></p>
-    <div class="stage-actions"><button class="primary" id="verify">Cruzar com a fonte oficial →</button></div>`;
+    <div class="forensics">
+      <article class="evidence-phone" aria-label="Publicação apreendida">
+        <div class="phone-top">09:14 <span>● ● ▰</span></div>
+        <button class="hotspot phone-profile" data-evidence="0" aria-pressed="false"><span class="network-avatar" aria-hidden="true">R</span><span><b>Radar Agora</b><small>@radaragora · 12 min</small></span></button>
+        <button class="hotspot phone-photo" data-evidence="1" aria-pressed="false" aria-label="Examinar a imagem da publicação">
+          <img src="aviso.svg" alt="Cartaz com o título Aviso à comunidade, recortado na parte inferior">
+          <span class="photo-loupe" aria-hidden="true">⌕</span>
+        </button>
+        <button class="hotspot phone-caption" data-evidence="2" aria-pressed="false"><strong>URGENTE: o aviso mudou!</strong>Compartilhe antes que apaguem.</button>
+        <button class="hotspot phone-reactions" data-evidence="3" aria-pressed="false">♡ 2,4 mil <span>↗ 890</span></button>
+      </article>
+      <div class="forensics-board">
+        <p class="kicker">Mesa de perícia · Evidência 01</p>
+        <h3 id="evidence-title">Examine a publicação</h3>
+        <p id="evidence-detail" aria-live="polite">Toque nas partes do post. Separe três pistas que sustentem a suspeita.</p>
+        <div id="photo-archive" class="photo-archive" hidden>
+          <button class="choice-action" id="compare-photo">Revelar o recorte original →</button>
+          <figure id="original-photo" hidden><img src="aviso.svg" alt=""><figcaption>Rodapé original · Campanha de outro município, agosto de 2024.</figcaption></figure>
+        </div>
+        <button class="choice-action" id="pin" hidden>Fixar pista</button>
+        <div class="dossier">
+          <p class="kicker">Pistas fixadas</p>
+          <ol id="dossier-slots" aria-label="Pistas no dossiê"></ol>
+          <p class="stage-tip" id="dossier-count"></p>
+          <button class="primary" id="verify">Consultar boletim oficial →</button>
+        </div>
+      </div>
+    </div>`;
   const buttons = all('[data-evidence]');
   const pin = $('#pin');
   const verify = $('#verify');
 
   function updateEvidence() {
-    $('#evidence-title').textContent = evidence[selected].label;
-    $('#evidence-detail').textContent = evidence[selected].detail;
+    if (selected !== null) {
+      $('#evidence-title').textContent = evidence[selected].label;
+      $('#evidence-detail').textContent = selected === 1 && !compared
+        ? 'O post corta o rodapé do cartaz. Consulte o arquivo para recuperar o contexto.'
+        : evidence[selected].detail;
+    }
+    $('#photo-archive').hidden = selected !== 1;
+    $('#original-photo').hidden = !compared;
+    $('#compare-photo').hidden = compared;
+    pin.hidden = selected === null || (selected === 1 && !compared);
     pin.textContent = pinned.has(selected) ? 'Retirar do dossiê' : 'Fixar no dossiê';
+    const slots = [...pinned].map((index) => evidence[index].label);
+    $('#dossier-slots').replaceChildren(...Array.from({ length: 3 }, (_, index) => {
+      const slot = document.createElement('li');
+      slot.textContent = slots[index] || '—';
+      slot.className = slots[index] ? 'pinned' : '';
+      return slot;
+    }));
     $('#dossier-count').textContent = inspected.size + '/4 áreas examinadas · ' +
       pinned.size + '/3 espaços no dossiê' +
       (pinned.size ? ' · ' + [...pinned].map((index) => evidence[index].label).join(', ') : '');
@@ -514,6 +544,11 @@ function investigate() {
       updateEvidence();
     };
   });
+  $('#compare-photo').onclick = () => {
+    compared = true;
+    updateEvidence();
+    pin.focus();
+  };
   pin.onclick = () => {
     if (pinned.delete(selected)) {
       feedback('Pista retirada do dossiê.');
@@ -541,7 +576,6 @@ function investigate() {
     showNext('Arquivar dossiê →', () => finishMission());
     focus('#bulletin-title');
   };
-  inspected.add(selected);
   updateEvidence();
 }
 

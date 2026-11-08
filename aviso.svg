@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+  <rect width="640" height="400" fill="#ebd9a5"/>
+  <path fill="#223b44" d="M0 0h640v40H0zm0 282h640v118H0z"/>
+  <path fill="#d98b43" d="M0 40h18v242H0zm622 0h18v242h-18z"/>
+  <g fill="#223b44" text-anchor="middle">
+    <text x="320" y="97" font-family="monospace" font-size="23" letter-spacing="7">COMUNICADO</text>
+    <text x="320" y="164" font-family="Georgia,serif" font-size="59" font-weight="bold">Aviso à</text>
+    <text x="320" y="231" font-family="Georgia,serif" font-size="59" font-weight="bold">comunidade</text>
+  </g>
+  <text x="320" y="334" fill="#fff1cd" text-anchor="middle" font-family="monospace" font-size="22">VILA DO FAROL · AGOSTO DE 2024</text>
+  <text x="320" y="370" fill="#fff1cd" text-anchor="middle" font-family="monospace" font-size="16">DOCUMENTO FICTÍCIO · ARQUIVO DO JOGO</text>
+</svg>
