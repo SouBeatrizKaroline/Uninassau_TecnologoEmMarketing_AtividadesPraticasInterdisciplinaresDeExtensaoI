@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360">
+  <defs>
+    <!-- Paper texture & filters -->
+    <filter id="paper-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.35"/>
+    </filter>
+    <pattern id="diagonal-hash" width="8" height="8" patternUnits="userSpaceOnUse">
+      <path d="M-2,2 l4,-4 M0,8 l8,-8 M6,10 l4,-4" stroke="#d49b54" stroke-width="0.8" opacity="0.2"/>
+    </pattern>
+  </defs>
+
+  <!-- SYMBOL 1: BOLETO ADULTERADO (CASE 07) -->
+  <g id="boleto-fraude" transform="translate(10, 10)">
+    <rect width="280" height="160" rx="4" fill="#faf6ed" stroke="#bda177" stroke-width="1.5" filter="url(#paper-shadow)"/>
+    <rect x="0" y="0" width="280" height="24" fill="#2d2218"/>
+    <text x="10" y="16" fill="#f4d398" font-family="monospace" font-size="10" font-weight="bold">FATURA / BOLETO BANCÁRIO · ANEXO SUSPEITO</text>
+    
+    <!-- Bank & Barcode simulation -->
+    <text x="14" y="44" fill="#1b2426" font-family="monospace" font-size="11" font-weight="bold">BANCO 033-7 | 03399.12345 67890.123456</text>
+    <line x1="14" y1="50" x2="266" y2="50" stroke="#cbb493" stroke-width="1"/>
+    
+    <!-- Fields with Red Flag Highlighting -->
+    <text x="14" y="66" fill="#695643" font-family="sans-serif" font-size="9">Beneficiário Original:</text>
+    <text x="14" y="78" fill="#231710" font-family="sans-serif" font-size="10" font-weight="bold">Companhia de Energia PE (Esperado)</text>
+    
+    <rect x="12" y="86" width="256" height="34" fill="#ffeae6" stroke="#d93829" stroke-dasharray="3,3" rx="3"/>
+    <text x="18" y="99" fill="#9e2016" font-family="monospace" font-size="9" font-weight="bold">⚠️ ADULTERADO: "LUCAS PIX SERVIÇOS ME"</text>
+    <text x="18" y="112" fill="#9e2016" font-family="monospace" font-size="8.5">CNPJ Fictício: 44.912.834/0001-90 (Conta Laranja)</text>
+
+    <!-- Barcode lines -->
+    <g transform="translate(14, 126)">
+      <line x1="0" y1="0" x2="0" y2="22" stroke="#111" stroke-width="2"/>
+      <line x1="5" y1="0" x2="5" y2="22" stroke="#111" stroke-width="1"/>
+      <line x1="9" y1="0" x2="9" y2="22" stroke="#111" stroke-width="3"/>
+      <line x1="15" y1="0" x2="15" y2="22" stroke="#111" stroke-width="1.5"/>
+      <line x1="20" y1="0" x2="20" y2="22" stroke="#111" stroke-width="4"/>
+      <line x1="28" y1="0" x2="28" y2="22" stroke="#111" stroke-width="1"/>
+      <line x1="33" y1="0" x2="33" y2="22" stroke="#111" stroke-width="2"/>
+      <line x1="40" y1="0" x2="40" y2="22" stroke="#111" stroke-width="3"/>
+      <line x1="48" y1="0" x2="48" y2="22" stroke="#111" stroke-width="1"/>
+      <line x1="53" y1="0" x2="53" y2="22" stroke="#111" stroke-width="4"/>
+      <line x1="62" y1="0" x2="62" y2="22" stroke="#111" stroke-width="2"/>
+      <line x1="68" y1="0" x2="68" y2="22" stroke="#111" stroke-width="1"/>
+      <line x1="75" y1="0" x2="75" y2="22" stroke="#111" stroke-width="3"/>
+      <line x1="84" y1="0" x2="84" y2="22" stroke="#111" stroke-width="1.5"/>
+      <line x1="92" y1="0" x2="92" y2="22" stroke="#111" stroke-width="3"/>
+      <line x1="102" y1="0" x2="102" y2="22" stroke="#111" stroke-width="2"/>
+      <line x1="110" y1="0" x2="110" y2="22" stroke="#111" stroke-width="4"/>
+      <line x1="120" y1="0" x2="120" y2="22" stroke="#111" stroke-width="1"/>
+      <line x1="128" y1="0" x2="128" y2="22" stroke="#111" stroke-width="2"/>
+      <line x1="136" y1="0" x2="136" y2="22" stroke="#111" stroke-width="3"/>
+      <line x1="145" y1="0" x2="145" y2="22" stroke="#111" stroke-width="1.5"/>
+      <line x1="155" y1="0" x2="155" y2="22" stroke="#111" stroke-width="3"/>
+      <line x1="165" y1="0" x2="165" y2="22" stroke="#111" stroke-width="2"/>
+      <line x1="175" y1="0" x2="175" y2="22" stroke="#111" stroke-width="4"/>
+      <line x1="185" y1="0" x2="185" y2="22" stroke="#111" stroke-width="1"/>
+    </g>
+    <!-- Stamp -->
+    <rect x="202" y="122" width="68" height="26" fill="none" stroke="#d93829" stroke-width="1.5" rx="2" transform="rotate(-6 236 135)"/>
+    <text x="236" y="139" fill="#d93829" font-family="monospace" font-size="9" font-weight="bold" text-anchor="middle" transform="rotate(-6 236 135)">FALSIFICADO</text>
+  </g>
+
+  <!-- SYMBOL 2: WHOIS / DOMAIN INSPECTOR (CASE 05 & 07) -->
+  <g id="whois-terminal" transform="translate(305, 10)">
+    <rect width="285" height="160" rx="4" fill="#141c1f" stroke="#4a5e5b" stroke-width="1.5" filter="url(#paper-shadow)"/>
+    <!-- Terminal bar -->
+    <rect width="285" height="22" fill="#202c2f" rx="4 4 0 0"/>
+    <circle cx="12" cy="11" r="4" fill="#e05445"/>
+    <circle cx="24" cy="11" r="4" fill="#e0af45"/>
+    <circle cx="36" cy="11" r="4" fill="#45e08b"/>
+    <text x="50" y="15" fill="#a8b8b5" font-family="monospace" font-size="9">terminal-pericia://whois-lookup</text>
+
+    <!-- Terminal Code -->
+    <g transform="translate(12, 38)" font-family="monospace" font-size="8.5">
+      <text x="0" y="0" fill="#7bf2c6">&gt; whois painel-de-acesso.example</text>
+      <text x="0" y="14" fill="#8ba19e">Registrar: OffShore DNS Ltd.</text>
+      <text x="0" y="27" fill="#8ba19e">Creation Date: <tspan fill="#ff9182">Há apenas 48 horas</tspan></text>
+      <text x="0" y="40" fill="#8ba19e">Status: Suspicious / Low Reputation</text>
+      <text x="0" y="53" fill="#ffcd75">&gt; curl -I https://conta-aurora.example</text>
+      <text x="0" y="66" fill="#8ba19e">Domínio Oficial: Servidor Verificado</text>
+      <text x="0" y="79" fill="#7bf2c6">&gt; check-spoofing alerta@aurora-verifica.example</text>
+      <text x="0" y="92" fill="#ff7061">[ALERTA] SPF/DKIM: FAIL (Cabeçalho forjado)</text>
+      <text x="0" y="105" fill="#fff4db" font-weight="bold">Laudo: Phishing e Clonagem de Identidade</text>
+    </g>
+  </g>
+
+  <!-- SYMBOL 3: POLAROID PHOTO PERICIAL EVIDENCE (CASE 01 & 04) -->
+  <g id="polaroid-evidencia" transform="translate(10, 185)">
+    <rect width="280" height="165" rx="3" fill="#fdfbf7" stroke="#c2af8e" stroke-width="1.5" filter="url(#paper-shadow)"/>
+    <!-- Photo area -->
+    <rect x="14" y="14" width="252" height="110" fill="#1f2c2b"/>
+    <rect x="14" y="14" width="252" height="110" fill="url(#diagonal-hash)"/>
+    
+    <!-- Cut mark graphic -->
+    <path d="M20 70 L90 35 L160 55 L240 25" stroke="#edc384" stroke-width="2" fill="none"/>
+    <path d="M14 96 L266 96" stroke="#d93829" stroke-width="2" stroke-dasharray="4,4"/>
+    <text x="24" y="90" fill="#ff7a6b" font-family="monospace" font-size="8.5" font-weight="bold">✂ LINHA DO RECORTE MALICIOSO</text>
+    <text x="24" y="118" fill="#a4b4ad" font-family="monospace" font-size="8">Rodapé cortado continha a data: "Agosto de 2024"</text>
+    <circle cx="210" cy="50" r="14" fill="none" stroke="#edc384" stroke-width="2"/>
+    <line x1="220" y1="60" x2="232" y2="72" stroke="#edc384" stroke-width="3"/>
+
+    <!-- Polaroid handwriting bottom -->
+    <text x="20" y="142" fill="#2d2218" font-family="Georgia, serif" font-size="12" font-style="italic">Evidência 01-A · Cartaz Reutilizado</text>
+    <text x="20" y="154" fill="#755a3d" font-family="monospace" font-size="8">Lacre Forense #8812 · Camaragibe (PE)</text>
+    <!-- Paperclip -->
+    <rect x="236" y="6" width="8" height="24" rx="4" fill="none" stroke="#909aa0" stroke-width="2"/>
+  </g>
+
+  <!-- SYMBOL 4: PROTOCOLO POLICIAL DE FRAUDE & PIX (CASE 06 & 07) -->
+  <g id="protocolo-policia" transform="translate(305, 185)">
+    <rect width="285" height="165" rx="3" fill="#f8f4eb" stroke="#a68e6e" stroke-width="1.5" filter="url(#paper-shadow)"/>
+    <rect width="285" height="26" fill="#233533" rx="3 3 0 0"/>
+    <text x="14" y="17" fill="#f5e6c8" font-family="Georgia,serif" font-size="10" font-weight="bold">BOLETIM DE OCORRÊNCIA DIGITAL · POLÍCIA CIVIL</text>
+    
+    <g transform="translate(14, 40)" font-family="sans-serif" font-size="9" fill="#261b14">
+      <text x="0" y="0">Natureza: <tspan font-weight="bold">Tentativa de Extorsão / Falso Sequestro &amp; Pix</tspan></text>
+      <text x="0" y="15">Vítima: <tspan font-family="monospace">Morador de Camaragibe / Familiar Protegido</tspan></text>
+      <text x="0" y="30">Origem: <tspan fill="#a8281b" font-weight="bold">Chamada em Massa / Presídio (Prefixos Diversos)</tspan></text>
+      
+      <rect x="0" y="40" width="257" height="42" fill="#e8f3ee" stroke="#509b7c" rx="3"/>
+      <text x="8" y="54" fill="#1b4d3a" font-weight="bold">PROTOCOLO DE SEGURANÇA IMEDIATA:</text>
+      <text x="8" y="67" fill="#224235">1. Não fazer transferência Pix</text>
+      <text x="8" y="78" fill="#224235">2. Contatar o familiar por outro telefone e acionar 190</text>
+      
+      <text x="0" y="104" font-family="monospace" font-size="8" fill="#5c6966">Autenticação: 81-PE-2026-FIOVERMELHO-UNINASSAU</text>
+    </g>
+    <!-- Official Stamp -->
+    <circle cx="242" cy="125" r="22" fill="none" stroke="#255848" stroke-width="1.8" stroke-dasharray="4,2"/>
+    <text x="242" y="123" fill="#255848" font-family="monospace" font-size="6.5" font-weight="bold" text-anchor="middle">PERÍCIA</text>
+    <text x="242" y="132" fill="#255848" font-family="monospace" font-size="6" text-anchor="middle">PE-CAMARAGIBE</text>
+  </g>
+</svg>
