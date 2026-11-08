@@ -18,42 +18,40 @@
   let x = 2;
   let y = 4;
 
-  function rect(color, left, top, width, height) {
-    ctx.fillStyle = color;
-    ctx.fillRect(left, top, width, height);
-  }
-
   function draw() {
     if (!ctx) return;
-    rect('#d8bd8d', 0, 0, 240, 144);
-    rect('#b69970', 0, 50, 240, 42);
-    rect('#ded0ae', 0, 66, 240, 12);
-    for (let left = 8; left < 240; left += 20) {
-      rect('#a48765', left, 57, 10, 2);
-      rect('#a48765', left, 84, 10, 2);
-    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#e8be7f85';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4, 8]);
+    ctx.beginPath();
     sites.forEach(([column, row], index) => {
-      const left = column * 16;
-      const top = row * 16;
-      const folder = folders[index];
-      rect('#83684f', left - 12, top - 15, 25, 24);
-      rect('#5d463b', left - 13, top - 17, 27, 9);
-      rect('#b08c62', left - 10, top - 8, 21, 15);
-      rect('#efe2bc', left - 7, top - 5, 4, 5);
-      rect('#efe2bc', left + 5, top - 5, 4, 5);
-      rect(folder.disabled ? '#65584d' : '#8b2d2a', left - 4, top + 2, 10, 11);
-      ctx.fillStyle = '#fff5da';
-      ctx.font = 'bold 8px monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText(String(index + 1), left + 1, top + 10);
+      if (index === 0) ctx.moveTo(column * 48, row * 48);
+      else ctx.lineTo(column * 48, row * 48);
     });
-    const left = x * 16;
-    const top = y * 16;
-    rect('#3c312d', left - 4, top + 6, 10, 3);
-    rect('#743d30', left - 4, top, 10, 7);
-    rect('#f0ca9a', left - 2, top - 4, 6, 5);
-    rect('#27251f', left - 4, top - 6, 10, 3);
-    rect('#27251f', left - 2, top - 9, 6, 4);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    sites.forEach(([column, row], index) => {
+      const left = column * 48;
+      const top = row * 48;
+      const folder = folders[index];
+      ctx.beginPath();
+      ctx.arc(left, top, 17, 0, 2 * Math.PI);
+      ctx.fillStyle = folder.disabled ? '#192027' : '#e8be7f';
+      ctx.fill();
+      ctx.strokeStyle = folder.disabled ? '#acb3b9' : '#fff1c8';
+      ctx.stroke();
+      ctx.fillStyle = folder.disabled ? '#d1d7d9' : '#211811';
+      ctx.font = 'bold 16px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(folder.classList.contains('is-complete') ? '✓' : String(index + 1), left, top + 6);
+    });
+    ctx.beginPath();
+    ctx.arc(x * 48, y * 48, 24, 0, 2 * Math.PI);
+    ctx.strokeStyle = '#a6f7db';
+    ctx.stroke();
+    ctx.fillStyle = '#a6f7db';
+    ctx.fillText('◆', x * 48, y * 48 + 6);
   }
 
   function refresh() {
@@ -64,7 +62,7 @@
     const message = folder
       ? sites[index][2] + ' · Pasta ' + (index + 1) + (folder.disabled ? ' lacrada. Resolva o caso anterior.' : ' disponível para investigar.')
       : 'Cada número é um local da investigação. Ande até uma entrada ou abra a pasta correspondente.';
-    if (radio.textContent !== message) radio.textContent = message;
+    if (!document.querySelector('#missao').hidden && radio.textContent !== message) radio.textContent = message;
     draw();
   }
 
@@ -83,6 +81,17 @@
     } else if (event.key === 'Enter') {
       event.preventDefault();
       interact.click();
+    }
+  });
+  canvas.addEventListener('pointerdown', (event) => {
+    const bounds = canvas.getBoundingClientRect();
+    const px = (event.clientX - bounds.left) / bounds.width * canvas.width;
+    const py = (event.clientY - bounds.top) / bounds.height * canvas.height;
+    const site = sites.find(([column, row]) => Math.hypot(column * 48 - px, row * 48 - py) <= 25);
+    if (site) {
+      [x, y] = site;
+      refresh();
+      if (!interact.disabled) interact.focus();
     }
   });
   document.querySelectorAll('[data-move]').forEach((button) => {

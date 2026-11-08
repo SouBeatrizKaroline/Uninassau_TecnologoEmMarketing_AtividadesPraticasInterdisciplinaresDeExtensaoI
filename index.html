@@ -13,49 +13,39 @@
 <body>
   <dialog class="intro" id="intro" aria-labelledby="intro-title">
     <div class="intro-card">
-      <p class="kicker">Conexão Digital · Sinal recebido</p>
-      <div class="intro-mark" aria-hidden="true">✦</div>
-      <h1 id="intro-title">Arquivo de Casos</h1>
+      <p class="kicker">Campanha 01 / Camaragibe, PE</p>
+      <h1 id="intro-title">Operação<br>Fio Vermelho</h1>
       <p>Um aviso falso começou a circular em Camaragibe. Investigue de onde veio e descubra o que ele tem a ver com uma oferta viral e um falso suporte.</p>
       <button class="primary" id="begin" autofocus>Assumir investigação <span aria-hidden="true">→</span></button>
       <small>Seu progresso fica neste dispositivo.</small>
     </div>
   </dialog>
   <header class="topbar">
-    <a class="brand" href="#inicio">CONEXÃO <span>DIGITAL</span></a>
+    <button class="brand" id="start" type="button"><span class="brand-icon" aria-hidden="true">⌕</span><span>CONEXÃO <b>DIGITAL</b><small>ARQUIVO DE CASOS</small></span></button>
     <nav class="menu" aria-label="Menu principal">
-      <a href="#missao">Mapa</a>
-      <a href="#habilidades">Distintivos</a>
-      <a href="#sobre">Diário</a>
+      <button data-view="missao" aria-current="true">Distrito</button>
+      <button data-view="habilidades">Distintivos</button>
+      <button data-view="sobre">Diário</button>
     </nav>
     <div class="player" aria-label="Status do jogador">
       <button class="avatar-mini" id="avatar-mini" aria-label="Escolher avatar">✦</button>
       <span><b id="player-name">Explorador</b><small id="level">Nível 1</small></span>
       <div class="xp-box"><b id="xp">0</b> XP<div class="xp-track" aria-hidden="true"><i id="xp-fill"></i></div></div>
-      <span class="hud-stars" id="hud-stars" aria-label="0 de 3 estrelas">☆☆☆</span>
+      <span class="hud-stars" id="hud-stars" aria-label="0 de 7 estrelas">☆☆☆☆☆☆☆</span>
     </div>
   </header>
-  <main>
-    <section class="start" id="inicio">
-      <div class="start-copy">
-        <p class="kicker">Camaragibe, PE · Arquivo 07</p>
-        <h1>Quem está por<br>trás do feed?</h1>
-        <p>Sete casos conectam um boato de bairro, um anúncio viral e um golpe digital. Siga o rastro pelas ruas e reúna as provas.</p>
-        <button class="primary" id="start">Explorar o distrito <span aria-hidden="true">→</span></button>
-        <p class="note">Projeto de extensão em Marketing · História fictícia</p>
-      </div>
-      <div class="hero-card">
-        <span class="hero-star" aria-hidden="true">★</span>
-        <div class="avatar avatar-main" id="hero-avatar" aria-hidden="true">✦</div>
-        <strong id="hero-caption"></strong>
-        <small>AVATAR ATIVO</small>
-      </div>
-    </section>
-    <section class="profile" id="perfil" aria-labelledby="profile-title">
+  <main class="game-shell">
+    <aside class="case-drawer" aria-labelledby="archive-heading">
+      <div class="drawer-head"><p class="kicker">Campanha 01</p><h2 id="archive-heading">Fio Vermelho</h2><p class="progress-copy"><b id="completed">0</b>/7 casos arquivados</p></div>
+      <div class="path" id="case-files"></div>
+    </aside>
+    <div class="game-workspace">
+    <section class="profile game-view" id="perfil" aria-labelledby="profile-title" hidden>
       <div>
         <p class="kicker">Seleção de personagem</p>
         <h2 id="profile-title" tabindex="-1">Escolha seu avatar</h2>
         <p class="muted">Escolha seu perfil de investigação. Todos os personagens podem resolver os sete casos.</p>
+        <div class="profile-current"><span class="avatar avatar-small" id="hero-avatar" aria-hidden="true">✦</span><strong id="hero-caption"></strong></div>
       </div>
       <div class="avatars">
         <button class="avatar-option" data-avatar="✦" data-name="Explorador" aria-pressed="false">✦<small>Explorador</small></button>
@@ -64,14 +54,11 @@
         <button class="avatar-option" data-avatar="⬢" data-name="Guardião" aria-pressed="false">⬢<small>Guardião</small></button>
       </div>
     </section>
-    <section class="journey" id="missao" aria-labelledby="map-title">
-      <div class="section-title">
-        <div><p class="kicker">Distrito de investigação</p><h2 id="map-title" tabindex="-1">Siga o rastro</h2></div>
-        <p class="progress-copy"><b id="completed">0</b>/7 casos</p>
-      </div>
+    <section class="journey game-view" id="missao" aria-labelledby="map-title">
       <div class="district">
-        <div>
-          <canvas id="district-map" width="240" height="144" tabindex="0" aria-label="Mapa do distrito. Use as setas para andar e Enter para abrir um caso. Os mesmos casos estão listados abaixo."></canvas>
+        <div class="district-scene">
+          <div class="scene-heading"><p class="kicker">Distrito 01 / Pernambuco</p><h2 id="map-title" tabindex="-1">Camaragibe</h2></div>
+          <canvas id="district-map" width="720" height="432" tabindex="0" aria-label="Mapa do distrito. Use as setas para andar e Enter para abrir um caso. Os mesmos casos estão listados no arquivo."></canvas>
           <div class="map-controls" aria-label="Controles do mapa">
             <button data-move="up" aria-label="Andar para cima">↑</button>
             <button data-move="left" aria-label="Andar para a esquerda">←</button>
@@ -79,16 +66,9 @@
             <button data-move="right" aria-label="Andar para a direita">→</button>
           </div>
         </div>
-        <aside class="field-dialogue">
-          <p class="kicker">Rádio · Inspetora Lia</p>
-          <p id="map-radio" role="status">Cada número é um local da investigação. Ande até uma entrada ou abra a pasta correspondente.</p>
-          <button class="primary" id="map-interact" disabled>Investigar local</button>
-        </aside>
       </div>
-      <h3 class="archive-heading">Pastas do arquivo</h3>
-      <div class="path" id="case-files"></div>
     </section>
-    <section class="play-area" id="play" aria-labelledby="question" hidden>
+    <section class="play-area game-view" id="play" aria-labelledby="question" hidden>
       <div class="play-top">
         <span id="mission-name"></span>
           <span id="case-stage">Estágio 1/3</span>
@@ -104,9 +84,9 @@
       <p class="result" id="result" role="status"></p>
       <button class="primary next" id="next" hidden></button>
     </section>
-    <section class="skills" id="habilidades" aria-labelledby="skills-title">
+    <section class="skills game-view" id="habilidades" aria-labelledby="skills-title" hidden>
       <p class="kicker">Sala de conquistas</p>
-      <h2 id="skills-title">Seus distintivos</h2>
+      <h2 id="skills-title" tabindex="-1">Seus distintivos</h2>
       <div class="skill-grid">
         <div class="skill" id="skill-news"><span aria-hidden="true">⌕</span><b>Olhar crítico</b><small>Bloqueado</small></div>
         <div class="skill" id="skill-timeline"><span aria-hidden="true">⌛</span><b>Rastreador de contexto</b><small>Bloqueado</small></div>
@@ -118,10 +98,10 @@
         <div class="skill final-skill"><span aria-hidden="true">★</span><b>Guardião digital</b><small>Complete os sete casos</small></div>
       </div>
     </section>
-    <section class="reflection" id="sobre">
+    <section class="reflection game-view" id="sobre" hidden>
       <div>
         <p class="kicker">Diário de bordo</p>
-        <h2>O que você leva para suas redes?</h2>
+        <h2 id="journal-title" tabindex="-1">O que você leva para suas redes?</h2>
         <p class="muted">Registre um cuidado que pretende adotar. A reflexão fica neste dispositivo.</p>
       </div>
       <form id="feedback-form">
@@ -131,6 +111,15 @@
         <p id="form-status" role="status"></p>
       </form>
     </section>
+    </div>
+    <aside class="field-dialogue" aria-labelledby="radio-title">
+      <div class="radio-portrait"><span class="radio-signal">● EM ESCUTA</span></div>
+      <div class="radio-copy">
+        <p class="kicker">Canal de campo / 01</p><h2 id="radio-title">Inspetora Lia</h2>
+        <p id="map-radio" role="status">Abra um caso no arquivo ou siga até um local marcado no distrito.</p>
+        <button class="primary" id="map-interact" disabled>Investigar local</button>
+      </div>
+    </aside>
   </main>
   <footer>Conexão Digital · Projeto de extensão em letramento digital</footer>
 </body>

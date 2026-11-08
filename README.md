@@ -4,7 +4,7 @@ Jogo educativo da ação de extensão **Tecnologia e Informação nas Redes Soci
 
 ## Como jogar
 
-Abra `index.html` em um navegador moderno. Escolha um avatar e explore o distrito com as setas do teclado ou os botões na tela. Ao chegar a uma entrada numerada, use **Investigar local** ou pressione Enter no mapa. Você também pode abrir a pasta correspondente no arquivo.
+Abra `index.html` em um navegador moderno. Use o arquivo de casos ou explore o distrito ilustrado com as setas do teclado e os botões na tela. Clique em um marcador para selecionar o local. Use **Investigar local** ou pressione Enter no mapa para abrir o caso.
 
 | Nível | Tarefa de investigação |
 | --- | --- |
@@ -12,7 +12,7 @@ Abra `index.html` em um navegador moderno. Escolha um avatar e explore o distrit
 | **02 · O recorte fora de hora** | Organize três registros para identificar uma publicação tirada de contexto. |
 | **03 · Por trás da tela** | Interaja com as publicações e veja como o algoritmo simulado muda as recomendações. |
 | **04 · O anúncio de cinco minutos** | Marque trechos que ocultam o patrocínio ou pressionam a compra. |
-| **05 · O suporte que pediu o código** | Marque sinais de phishing e confronte o e-mail com o canal oficial e um exemplo de mensagem esperada. |
+| **05 · O suporte que pediu o código** | Examine o remetente, revele o destino do botão e marque os trechos suspeitos dentro do e-mail. Anexe as pistas ao dossiê e escolha um canal para verificar o aviso. |
 | **06 · Modo proteção** | Equipe três defesas e teste a conta contra as ameaças simuladas. |
 | **07 · Operação Fio Vermelho** | Cruze os documentos para reconstruir como a operação tentou obter o código de acesso. |
 

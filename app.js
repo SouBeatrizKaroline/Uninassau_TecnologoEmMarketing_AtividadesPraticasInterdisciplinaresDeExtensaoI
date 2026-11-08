@@ -53,13 +53,14 @@ const missions = {
     badge: 'Perícia de e-mail',
     recap: 'O domínio divergente, o botão que leva a outro endereço e o pedido de código sugerem phishing. Abra o serviço pelo canal conhecido e denuncie a mensagem suspeita.',
     play: () => inspectDocument({
-      title: 'E-mail recebido · Sua conta será bloqueada',
+      title: 'Sua conta será bloqueada hoje',
+      email: true,
       prompt: 'Marque três evidências que justificam desconfiar deste e-mail.',
       fields: [
         ['Remetente', 'Suporte da Conta Aurora <alerta@aurora-verifica.example>', true],
         ['Horário de envio', '09h14', false],
         ['Prévia do botão “Reativar”', 'painel-de-acesso.example/aurora', true],
-        ['Pedido do suporte', 'Responda com o código de seis dígitos que chegou no seu celular.', true],
+        ['Corpo da mensagem', 'Olá! Detectamos atividade incomum na sua conta. Para evitar o bloqueio, responda com o código de seis dígitos que chegou no seu celular.', true],
         ['Assinatura', 'Equipe de atendimento', false],
       ],
       reference: 'Na consulta independente, o canal da Conta Aurora usa conta-aurora.example. O histórico da conta não mostra bloqueio. O suporte oficial não solicita o código por e-mail.',
@@ -111,6 +112,8 @@ $('#case-files').innerHTML = missionIds.map((id, index) => {
     '</span><span class="mission-status"></span></span></button>';
 }).join('');
 const missionButtons = all('.mission');
+const views = all('.game-view');
+const viewButtons = all('[data-view]');
 const reward = 60;
 
 function read(key) {
@@ -210,6 +213,15 @@ function setBar(value, total) {
   $('#bar-fill').style.width = value / total * 100 + '%';
 }
 
+function showView(id) {
+  views.forEach((view) => { view.hidden = view.id !== id; });
+  viewButtons.forEach((button) => {
+    button.setAttribute('aria-current', button.dataset.view === id ? 'true' : 'false');
+  });
+  $('#map-interact').hidden = id !== 'missao';
+  if (id === 'missao') document.dispatchEvent(new Event('case-progress'));
+}
+
 function feedback(message = '', type = '') {
   result.textContent = message;
   result.classList.toggle('is-success', type === 'success');
@@ -224,7 +236,7 @@ function showNext(label, action) {
 
 function returnToMap() {
   activeMission = null;
-  $('#play').hidden = true;
+  showView('missao');
   updateHud();
   focus('#map-title');
 }
@@ -233,7 +245,8 @@ function startMission(id) {
   if (!available(id)) return;
   const mission = missions[id];
   activeMission = id;
-  $('#play').hidden = false;
+  showView('play');
+  $('#map-radio').textContent = briefings[id];
   $('#mission-name').textContent = 'CASO ' + String(missionIds.indexOf(id) + 1).padStart(2, '0');
   $('#case-stage').textContent = '1/3 · Briefing';
   $('#scenario').textContent = mission.label.toUpperCase();
@@ -269,6 +282,7 @@ function finishMission(detail = '') {
   }
   const stored = write('progress', JSON.stringify({ xp: progress.xp, done: [...progress.done] }));
   const nextId = missionIds.find((candidate) => !progress.done.has(candidate));
+  $('#map-radio').textContent = nextId ? 'Relatório recebido. A próxima pasta está aberta.' : 'Arquivo completo. Todas as evidências foram registradas.';
   $('#scenario').textContent = nextId ? 'MISSÃO CUMPRIDA' : 'CAMPANHA CONCLUÍDA';
   $('#case-stage').textContent = '3/3 · Relatório';
   $('#question').textContent = nextId ? 'Operação bem-sucedida' : 'Você é Guardião digital!';
@@ -298,11 +312,17 @@ const briefings = {
   finale: 'Reúna os registros dos casos anteriores. O relatório precisa ligar a publicação viral ao falso suporte sem atribuir identidade a ninguém sem prova.',
 };
 
-function inspectDocument({ title, prompt, fields, reference, comparison }) {
+function inspectDocument({ title, prompt, fields, reference, comparison, email = false }) {
   const marked = new Set();
   const expected = fields.filter(([, , clue]) => clue).length;
-  stage.innerHTML = '<p class="round-goal">' + prompt + '</p><article class="evidence-paper"><p class="paper-stamp">Documento simulado</p><h3></h3><div class="document-fields"></div></article>' +
-    '<p class="stage-tip" id="marked-count"></p><div class="stage-actions"><button class="primary" id="compare-document" disabled>Conferir com registro independente →</button></div>';
+  const documentHeading = email
+    ? '<div class="mail-toolbar"><span>✉ Caixa de entrada</span><span>EVIDÊNCIA 05–A</span></div>'
+    : '<p class="paper-stamp">Documento simulado</p>';
+  stage.innerHTML = '<p class="round-goal">' + prompt + '</p><article class="evidence-paper' +
+    (email ? ' mail-client' : '') + '">' + documentHeading +
+    '<h3></h3><div class="document-fields"></div></article>' +
+    '<p class="stage-tip" id="marked-count"></p><div class="stage-actions"><button class="primary" id="compare-document" disabled>' +
+    (email ? 'Anexar marcações ao dossiê →' : 'Conferir com registro independente →') + '</button></div>';
   $('.evidence-paper h3').textContent = title;
   const list = $('.document-fields');
   const compare = $('#compare-document');
@@ -316,9 +336,29 @@ function inspectDocument({ title, prompt, fields, reference, comparison }) {
     const heading = document.createElement('strong');
     heading.textContent = label;
     button.className = 'document-field';
+    if (email) button.classList.add('mail-part');
     button.setAttribute('aria-pressed', 'false');
-    button.append(heading, document.createTextNode(copy));
-    button.onclick = () => {
+    if (email && index === 2) {
+      const preview = document.createElement('span');
+      preview.className = 'mail-preview';
+      preview.textContent = copy;
+      preview.hidden = true;
+      heading.textContent = 'Reativar conta · Inspecionar destino';
+      button.append(heading, preview);
+      button.onclick = () => {
+        if (preview.hidden) {
+          preview.hidden = false;
+          heading.textContent = 'Destino do botão · Marcar evidência';
+          feedback('Prévia aberta em segurança. O endereço é exibido como texto.');
+          return;
+        }
+        toggleMark();
+      };
+    } else {
+      button.append(heading, document.createTextNode(copy));
+      button.onclick = toggleMark;
+    }
+    function toggleMark() {
       if (!marked.has(index) && marked.size === expected) {
         feedback('Retire uma marcação para examinar outra hipótese.', 'warning');
         return;
@@ -327,7 +367,7 @@ function inspectDocument({ title, prompt, fields, reference, comparison }) {
       button.setAttribute('aria-pressed', marked.has(index));
       feedback('');
       updateMarks();
-    };
+    }
     list.append(button);
   });
   compare.onclick = () => {
@@ -335,6 +375,25 @@ function inspectDocument({ title, prompt, fields, reference, comparison }) {
       feedback('Uma marcação descreve um detalhe comum. Releia o objetivo e substitua a marcação por um trecho que sustente sua suspeita.', 'warning');
       return;
     }
+    if (email) {
+      $('#case-stage').textContent = '2/3 · Verificação';
+      $('#map-radio').textContent = 'Três indícios registrados. Agora confira a situação da conta por um caminho que você já conhece.';
+      stage.insertAdjacentHTML('beforeend',
+        '<article class="game-card verification"><h3 id="verification-title" tabindex="-1">Como você vai confirmar o aviso?</h3>' +
+        '<div class="stage-actions"><button class="choice-action" id="reply-mail">Responder ao remetente</button>' +
+        '<button class="primary" id="official-channel">Consultar o app oficial →</button></div></article>');
+      compare.disabled = true;
+      list.querySelectorAll('button').forEach((button) => { button.disabled = true; });
+      $('#reply-mail').onclick = () => feedback('Responder mantém o contato com um remetente suspeito. Confira a conta por um canal que você já usa.', 'warning');
+      $('#official-channel').onclick = showComparison;
+      feedback('Evidências anexadas. Escolha um canal para conferir o aviso.', 'success');
+      focus('#verification-title');
+      return;
+    }
+    showComparison();
+  };
+  function showComparison() {
+    feedback('');
     stage.innerHTML = '<article class="evidence-paper"><p class="paper-stamp">Conferência concluída</p><h3 id="comparison-title" tabindex="-1">O que o registro confirma</h3><p></p></article>';
     $('.evidence-paper p:last-child').textContent = reference;
     if (comparison) {
@@ -345,7 +404,7 @@ function inspectDocument({ title, prompt, fields, reference, comparison }) {
     setBar(1, 1);
     showNext('Arquivar perícia →', () => finishMission());
     focus('#comparison-title');
-  };
+  }
   updateMarks();
 }
 
@@ -663,6 +722,7 @@ avatars.forEach((button) => {
 missionButtons.forEach((button) => {
   button.onclick = () => {
     if (activeMission === button.dataset.track) {
+      showView('play');
       focus('#question');
     } else {
       startMission(button.dataset.track);
@@ -670,12 +730,19 @@ missionButtons.forEach((button) => {
   };
 });
 $('#back-to-map').onclick = returnToMap;
-$('#avatar-mini').onclick = () => focus('#profile-title');
-$('#start').onclick = () => focus('#map-title');
+viewButtons.forEach((button) => {
+  button.onclick = () => {
+    showView(button.dataset.view);
+    focus({ missao: '#map-title', habilidades: '#skills-title', sobre: '#journal-title' }[button.dataset.view]);
+  };
+});
+$('#avatar-mini').onclick = () => { showView('perfil'); focus('#profile-title'); };
+$('#start').onclick = () => { showView('missao'); focus('#map-title'); };
 $('#begin').onclick = () => {
   write('intro-seen', 'yes');
   $('#intro').close();
-  focus('#profile-title');
+  showView('missao');
+  focus('#map-title');
 };
 $('#intro').addEventListener('cancel', () => write('intro-seen', 'yes'));
 $('#message').value = read('reflection') || '';
