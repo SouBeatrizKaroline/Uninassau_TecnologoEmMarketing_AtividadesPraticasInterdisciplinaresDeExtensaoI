@@ -1,23 +1,25 @@
-# Conexão Digital — Arquivo de Casos
+# Conexão Digital: Informação, Redes e Segurança — Operação Fio Vermelho
 
-Jogo educativo da ação de extensão **Tecnologia e Informação nas Redes Sociais**, do curso Tecnólogo em Marketing.
+Jogo investigativo estilo detetive desenvolvido para o projeto de extensão **Conexão Digital: Informação, Redes e Segurança**, do curso de **Tecnologia em Marketing da UNINASSAU** (Polo Camaragibe, PE).
 
-## Como jogar
+O objetivo é apoiar jovens e adultos a verificar informações antes de compartilhar, reconhecer como algoritmos e anúncios influenciam suas decisões e proteger seus dados contra golpes digitais.
 
-Abra `index.html` em um navegador moderno. Use o arquivo de casos ou explore o distrito ilustrado com as setas do teclado e os botões na tela. Clique em um marcador para selecionar o local. Use **Investigar local** ou pressione Enter no mapa para abrir o caso.
+## A Investigação: Operação Fio Vermelho
 
-| Nível | Tarefa de investigação |
-| --- | --- |
-| **01 · O detetive do feed** | Examine perfil, imagem, legenda e reações. Monte um dossiê e consulte o boletim oficial. |
-| **02 · O recorte fora de hora** | Organize três registros para identificar uma publicação tirada de contexto. |
-| **03 · Por trás da tela** | Interaja com as publicações e veja como o algoritmo simulado muda as recomendações. |
-| **04 · O anúncio de cinco minutos** | Revise uma oferta e veja a prévia mudar ao identificar o patrocínio, retirar a falsa urgência e mostrar as condições. |
-| **05 · O suporte que pediu o código** | Examine o remetente, revele o destino do botão e marque os trechos suspeitos dentro do e-mail. Anexe as pistas ao dossiê e escolha um canal para verificar o aviso. |
-| **06 · Modo proteção** | Equipe três defesas e teste a conta contra as ameaças simuladas. |
-| **07 · Plantão de golpes** | Confira cinco alertas simulados. Investigue pedidos de Pix de um número novo, falso sequestro, link de entrega, e-mail com remetente falsificado e boleto falso. |
-| **08 · Operação Fio Vermelho** | Consulte a conversa recuperada e ligue os documentos que comprovam cada vínculo. |
+Na atividade principal **Operação Fio Vermelho**, o jogador assume a credencial de investigador da Divisão de Perícia Digital em Camaragibe (PE) ao lado da **Inspetora Lia**. Ao longo de **oito casos fictícios**, o detetive analisa publicações, cabeçalhos de e-mail, anúncios com gatilhos de urgência e conversas simuladas de WhatsApp e SMS, reúne provas no dossiê e decide como confirmar se uma mensagem é legítima por um canal independente.
 
-Cada caso tem briefing, investigação e relatório. A primeira conclusão rende 60 XP, uma estrela, um distintivo e libera a próxima pasta. Casos arquivados podem ser reabertos. As oito estrelas liberam a conquista **Guardião digital**.
+| Caso | Local no Distrito | Foco da Perícia Digital |
+| --- | --- | --- |
+| **01 · O detetive do feed** | Praça do Bairro | Examinar perfil, metadados de imagem recortada, legenda alarmista e reações; montar dossiê e cruzar com o boletim oficial. |
+| **02 · O recorte fora de hora** | Redação | Organizar registros cronológicos no quadro forense para comprovar a descontextualização de um cartaz antigo. |
+| **03 · Por trás da tela** | Sala do Feed | Operar o monitor de recomendações e observar como cliques alimentam o ruído algorítmico ou fortalecem o sinal útil. |
+| **04 · O anúncio de cinco minutos** | Agência | Auditar uma oferta viral na bancada de perícia, revelando patrocínio oculto, falso cronômetro de escassez e condições omitidas. |
+| **05 · O suporte que pediu o código** | Caixa de Entrada | Inspecionar remetente, testar o destino do botão em ambiente seguro e identificar armadilhas de phishing e roubo de código de 6 dígitos. |
+| **06 · Modo proteção** | Central de Segurança | Equipar três defesas (senha exclusiva, autenticação em dois fatores e canal oficial) e simular resistência a ataques reais. |
+| **07 · Plantão de golpes** | Plantão de Golpes | Triagem forense de cinco golpes digitais: pedido de Pix por número desconhecido no WhatsApp, falso sequestro, link suspeito de taxa de entrega (SMS), e-mail com remetente falsificado (*spoofing*) e boleto adulterado. |
+| **08 · Operação Fio Vermelho** | Arquivo Central | Ouvir o relato recuperado de testemunha no WhatsApp e esticar o fio vermelho no quadro de cortiça para conectar as provas da operação. |
+
+Cada caso possui três etapas (**1/3 · Briefing**, **2/3 · Investigação / Perícia** e **3/3 · Relatório Forense**), além de **Lupa Forense** com dicas periciais e efeitos sonoros sintetizados via Web Audio API (com botão de mudo). A conclusão de cada caso rende **60 XP**, uma estrela, um carimbo de arquivamento e um distintivo. As oito estrelas desbloqueiam a insígnia máxima **Guardião Digital**.
 
 ## Referências para o plantão
 
@@ -27,21 +29,10 @@ Cada caso tem briefing, investigação e relatório. A primeira conclusão rende
 
 ## Uso na ação de extensão
 
-- **Antes da partida** — converse sobre a última vez em que um título urgente chamou a atenção de alguém.
-- **Durante a partida** — peça à turma para comparar dossiês, observar o efeito das interações no feed e testar combinações de defesa.
-- **Depois da partida** — convide cada pessoa a registrar no diário de bordo um cuidado que pretende adotar.
-
-O distrito e seus documentos contam uma história fictícia ambientada em Camaragibe, PE. As três trilhas da atividade são checagem de informação, influência das redes e proteção de dados. Os endereços de exemplo fazem parte das evidências exibidas como texto. O feed é uma simulação didática com regras próprias.
+- **Antes da partida** — converse sobre a última vez em que um título urgente ou pedido inesperado de Pix chamou a atenção de alguém.
+- **Durante a partida** — peça à turma para comparar dossiês, usar a Lupa Forense nos alertas do plantão e observar o efeito das interações no feed.
+- **Depois da partida** — consulte o **Manual de Campo Anti-Golpes** integrado ao Diário e convide cada pessoa a registrar um protocolo de segurança que pretende adotar.
 
 ## Acessibilidade e privacidade
 
-Os controles funcionam por teclado e os avisos das missões são anunciados a leitores de tela. O avatar, o progresso e a reflexão ficam no armazenamento local do navegador. O jogo funciona sem cadastro, câmera ou senha.
-
-## Publicações sugeridas
-
-1. Apresente o jogo e convide o público a abrir um dossiê.
-2. Mostre como autoria, data e urgência ajudam a avaliar uma publicação.
-3. Compare dois percursos da simulação de feed.
-4. Discuta como emoções e persuasão influenciam cliques.
-5. Mostre o resultado de um teste de defesa com e sem segundo fator.
-6. Convide o público a completar as missões e registrar uma reflexão.
+Os controles funcionam por teclado, toque ou mouse, e os avisos das missões são anunciados a leitores de tela (`aria-live`). O avatar, o progresso e a reflexão ficam salvos apenas no armazenamento local do navegador (`localStorage`). O jogo funciona 100% offline/localmente sem cadastro, câmera ou coleta de dados.
