@@ -317,7 +317,7 @@ function inspectDocument({ title, prompt, fields, reference, comparison, email =
   const expected = fields.filter(([, , clue]) => clue).length;
   const documentHeading = email
     ? '<div class="mail-toolbar"><span>✉ Caixa de entrada</span><span>EVIDÊNCIA 05–A</span></div>'
-    : '<p class="paper-stamp">Documento simulado</p>';
+    : '<p class="paper-stamp">Captura de anúncio · Simulação</p><img class="ad-evidence-art" src="feed-art.svg#clock" alt="">';
   stage.innerHTML = '<p class="round-goal">' + prompt + '</p><article class="evidence-paper' +
     (email ? ' mail-client' : '') + '">' + documentHeading +
     '<h3></h3><div class="document-fields"></div></article>' +
@@ -411,13 +411,60 @@ function inspectDocument({ title, prompt, fields, reference, comparison, email =
 function arrange(prompt, records) {
   const order = [];
   const shuffled = [2, 0, 1, 3].filter((index) => index < records.length);
-  stage.innerHTML = '<p class="round-goal">' + prompt + '</p><div class="record-grid"></div>' +
+  const chat = activeMission === 'finale' ? `
+    <details class="chat-evidence">
+      <summary>▣ Abrir conversa recuperada · Evidência 07–A</summary>
+      <div class="chat-head"><strong>Grupo do bairro</strong><small>WhatsApp simulado · registro exportado</small></div>
+      <div class="chat-thread">
+        <p><b>Rafa</b>Alguém viu esse aviso? A postagem manda abrir uma oferta exclusiva.<small>08:11</small></p>
+        <p class="chat-out"><b>Júlia</b>Eu abri. A página pediu meu e-mail para mandar a confirmação.<small>08:14</small></p>
+        <p><b>Rafa</b>E o que veio na confirmação?<small>08:15</small></p>
+        <p class="chat-out"><b>Júlia · Mensagem de voz</b><button id="play-witness" class="choice-action">▶ Ouvir relato</button><small id="witness-status" role="status"></small>
+          <span id="witness-text">Depois de cadastrar meu e-mail, recebi uma mensagem que dizia ser do suporte. O botão apontava para o mesmo endereço da oferta e o texto pedia o código de acesso.</span><small>08:17 · Transcrição</small></p>
+      </div>
+    </details>` : '';
+  stage.innerHTML = chat + '<p class="round-goal">' + prompt + '</p><div class="record-grid"></div>' +
     '<article class="evidence-paper"><h3>Sequência do dossiê</h3><ol id="record-order"></ol></article>' +
     '<div class="stage-actions"><button class="choice-action" id="undo-record" disabled>Retirar último</button>' +
     '<button class="primary" id="verify-order" disabled>Validar sequência →</button></div>';
   const buttons = new Map();
   const undo = $('#undo-record');
   const verify = $('#verify-order');
+  if (chat) {
+    const playWitness = $('#play-witness');
+    let reading = false;
+    playWitness.onclick = () => {
+      const status = $('#witness-status');
+      if (!window.speechSynthesis || typeof SpeechSynthesisUtterance !== 'function') {
+        status.textContent = 'Leitura em voz indisponível. A transcrição está abaixo.';
+        return;
+      }
+      const speech = window.speechSynthesis;
+      if (reading) {
+        speech.cancel();
+        reading = false;
+        playWitness.textContent = '▶ Ouvir relato';
+        status.textContent = 'Relato interrompido.';
+        return;
+      }
+      const voice = new SpeechSynthesisUtterance($('#witness-text').textContent);
+      voice.lang = 'pt-BR';
+      const portuguese = speech.getVoices().find((option) => option.lang.toLowerCase() === 'pt-br');
+      if (portuguese) voice.voice = portuguese;
+      function completePlayback(message) {
+        if (!reading) return;
+        reading = false;
+        playWitness.textContent = '▶ Ouvir relato';
+        status.textContent = message;
+      }
+      voice.onend = () => completePlayback('Fim do relato.');
+      voice.onerror = () => completePlayback('Não foi possível reproduzir. Leia a transcrição abaixo.');
+      reading = true;
+      playWitness.textContent = '■ Parar relato';
+      status.textContent = 'Reproduzindo relato…';
+      speech.speak(voice);
+    };
+  }
   function updateOrder() {
     $('#record-order').replaceChildren(...order.map((index) => {
       const entry = document.createElement('li');
@@ -633,19 +680,27 @@ function trainFeed() {
   let noisyIndex = 0;
   stage.innerHTML = `
     <p class="round-goal">Em 6 interações, chegue a 4 pontos de sinal útil e no máximo 1 de ruído.</p>
-    <div class="stage-meter">
-      <div><label for="signal">Sinal útil <b id="signal-value"></b></label><meter id="signal" min="0" max="6" value="0"></meter></div>
-      <div><label for="noise">Ruído <b id="noise-value"></b></label><meter id="noise" min="0" max="8" value="2"></meter></div>
-    </div>
-    <article class="feed-card">
-      <p class="kicker" id="feed-turn"></p>
-      <h3 id="feed-title" tabindex="-1"></h3><p id="feed-text"></p>
-    </article>
-    <div class="stage-actions">
-      <button class="choice-action" data-action="follow">Acompanhar</button>
-      <button class="choice-action" data-action="skip">Passar</button>
-      <button class="choice-action" data-action="mute">Ver menos</button>
+    <div class="feed-lab">
+      <article class="feed-card social-post">
+        <div class="social-top"><span class="network-avatar" aria-hidden="true">↗</span><p class="kicker" id="feed-turn"></p></div>
+        <div class="feed-cover" id="feed-cover" aria-hidden="true"><img id="feed-illustration" src="feed-art.svg#library" alt=""></div>
+        <div class="social-copy"><h3 id="feed-title" tabindex="-1"></h3><p id="feed-text"></p></div>
+        <div class="stage-actions">
+          <button class="choice-action" data-action="follow"><span aria-hidden="true">＋</span> Acompanhar</button>
+          <button class="choice-action" data-action="skip"><span aria-hidden="true">→</span> Passar</button>
+          <button class="choice-action" data-action="mute"><span aria-hidden="true">−</span> Ver menos</button>
+        </div>
+      </article>
+      <aside class="algorithm-board">
+        <p class="kicker">Monitor de recomendações</p>
+        <div class="stage-meter">
+          <div><label for="signal">Sinal útil <b id="signal-value"></b></label><meter id="signal" min="0" max="6" value="0"></meter></div>
+          <div><label for="noise">Ruído <b id="noise-value"></b></label><meter id="noise" min="0" max="8" value="2"></meter></div>
+        </div>
+        <ol id="feed-history" aria-label="Histórico das suas interações"></ol>
+      </aside>
     </div>`;
+  const art = { useful: ['search', 'library', 'broadcast', 'news', 'lock', 'library'], noisy: ['broadcast', 'clock', 'broadcast', 'search', 'news', 'clock'] };
 
   function updateMeters() {
     $('#signal').value = signal;
@@ -656,7 +711,10 @@ function trainFeed() {
   }
 
   function showPost() {
-    const [title, copy] = useful ? usefulPosts[usefulIndex++] : noisyPosts[noisyIndex++];
+    const index = useful ? usefulIndex++ : noisyIndex++;
+    const [title, copy] = (useful ? usefulPosts : noisyPosts)[index];
+    const theme = useful ? 'useful' : 'noisy';
+    $('#feed-illustration').setAttribute('src', 'feed-art.svg#' + art[theme][index]);
     $('#feed-turn').textContent = 'RECOMENDAÇÃO ' + (turn + 1) + ' DE ' + total;
     $('#feed-title').textContent = title;
     $('#feed-text').textContent = copy;
@@ -688,6 +746,9 @@ function trainFeed() {
         useful = !useful;
         feedback('Você seguiu sem interagir. O feed testará outra categoria.');
       }
+      const step = document.createElement('li');
+      step.textContent = (turn + 1) + ' · ' + button.textContent.trim() + ' · ' + signal + ' sinal / ' + noise + ' ruído';
+      $('#feed-history').append(step);
       turn++;
       updateMeters();
       if (turn < total) {
@@ -727,7 +788,7 @@ function defend() {
   const equipped = new Set();
   stage.innerHTML = `
     <p class="round-goal">Equipe três recursos para bloquear vazamento de senha, tentativa de login e link falso.</p>
-    <p class="stage-tip" id="defense-slots">0/3 defesas equipadas</p>
+    <div class="defense-console"><img src="feed-art.svg#lock" alt=""><div><p class="kicker">Equipamento da conta</p><p class="stage-tip" id="defense-slots">0/3 defesas equipadas</p><div id="defense-lights" aria-hidden="true"><i></i><i></i><i></i></div></div></div>
     <div class="shield-list">${defenses.map(([label, copy], index) =>
       '<button class="shield-item" data-defense="' + index + '" aria-pressed="false"><span>' +
       (index + 1) + '</span><b>' + label + '</b><small>' + copy + '</small><i aria-hidden="true">+</i></button>').join('')}</div>
@@ -747,6 +808,7 @@ function defend() {
       button.setAttribute('aria-pressed', active);
       button.querySelector('i').textContent = active ? '✓' : '+';
       $('#defense-slots').textContent = equipped.size + '/3 defesas equipadas';
+      $('#defense-lights').setAttribute('data-filled', equipped.size);
       test.disabled = equipped.size !== 3;
       log.replaceChildren();
       setBar(0, attacks.length);

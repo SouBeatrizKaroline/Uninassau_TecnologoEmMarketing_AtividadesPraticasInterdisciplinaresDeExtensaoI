@@ -330,9 +330,40 @@ footer { background: #141e20; border-color: #3a4a46; }
 .verdict-clues { padding-left: 20px; color: var(--muted); font-size: .88rem; }
 .verdict-actions { display: grid; gap: 7px; }
 .verdict-actions button { justify-content: flex-start; text-align: left; }
+.feed-lab { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.social-post { padding: 0; overflow: hidden; gap: 0; border-color: #778276; }
+.social-top { display: flex; align-items: center; gap: 9px; padding: 10px 13px; }
+.social-top .kicker { margin: 0; }
+.social-top .network-avatar { flex: none; width: 30px; height: 30px; }
+.feed-cover { aspect-ratio: 240 / 108; overflow: hidden; background: #345050; }
+.feed-cover img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.ad-evidence-art { display: block; width: min(100%, 420px); margin: 10px 0; aspect-ratio: 240 / 108; }
+.social-copy, .social-post .stage-actions { padding: 12px; }
+.social-copy h3 { margin-bottom: 5px; font-size: 1.25rem; }
+.social-post .stage-actions { padding-top: 0; }
+.social-post .choice-action { flex: 1 1 auto; }
+.algorithm-board { padding: 14px; border: 1px solid #63796f; background: #142320; }
+.algorithm-board .stage-meter { grid-template-columns: 1fr; background: #182d29; }
+#feed-history { display: grid; gap: 6px; min-height: 20px; margin: 12px 0 0; padding: 0; list-style: none; }
+#feed-history li { padding: 6px 8px; border-left: 2px solid #a2d6c1; background: #253630; color: #e5ebd6; font: 700 .73rem/1.45 var(--mono); }
+.defense-console { display: flex; align-items: center; gap: 14px; padding: 10px; border: 1px solid #63796f; background: #182d29; }
+.defense-console img { width: min(120px, 35%); aspect-ratio: 240 / 108; }
+#defense-lights { display: flex; gap: 5px; margin-top: 6px; }
+#defense-lights i { width: 23px; height: 5px; background: #536362; }
+#defense-lights[data-filled="1"] i:first-child, #defense-lights[data-filled="2"] i:nth-child(-n+2), #defense-lights[data-filled="3"] i { background: #a2d6c1; }
+.chat-evidence { width: min(100%, 580px); border: 1px solid #638476; border-radius: 8px; overflow: hidden; background: #23332e; }
+.chat-evidence summary { padding: 12px; color: #fff4db; font-weight: 750; cursor: pointer; }
+.chat-head { padding: 10px 12px; background: #24584c; }
+.chat-head small { display: block; color: #d5e6d8; }
+.chat-thread { display: grid; gap: 8px; padding: 12px; background: repeating-linear-gradient(135deg, #283831 0 18px, #2b3b35 18px 36px); }
+.chat-thread p { width: fit-content; max-width: 88%; margin: 0; padding: 8px 10px; border-radius: 7px; background: #e5eadb; color: #20342a; }
+.chat-thread .chat-out { justify-self: end; background: #c2e1c3; }
+.chat-thread b, .chat-thread small, #witness-text { display: block; }
+.chat-thread small { color: #415d4f; font-size: .75rem; }
+#witness-text { margin-top: 6px; }
 
 @media (max-width: 580px) {
-  .forensics, .verdict-board { grid-template-columns: 1fr; }
+  .forensics, .verdict-board, .feed-lab { grid-template-columns: 1fr; }
   .evidence-phone { width: min(100%, 325px); justify-self: center; }
 }
 

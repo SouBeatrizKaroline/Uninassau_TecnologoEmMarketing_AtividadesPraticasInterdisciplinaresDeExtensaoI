@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 108">
+  <view id="library" viewBox="0 0 240 108"/>
+  <view id="search" viewBox="0 108 240 108"/>
+  <view id="broadcast" viewBox="0 216 240 108"/>
+  <view id="news" viewBox="0 324 240 108"/>
+  <view id="lock" viewBox="0 432 240 108"/>
+  <view id="clock" viewBox="0 540 240 108"/>
+  <defs>
+    <pattern id="grid" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M12 0H0V12" fill="none" stroke="#f9e3a9" stroke-opacity=".15"/></pattern>
+  </defs>
+  <g>
+    <path fill="#245854" d="M0 0h240v108H0z"/>
+    <path fill="url(#grid)" d="M0 0h240v108H0z"/>
+    <circle cx="120" cy="56" r="46" fill="#38756b"/>
+    <path fill="#e5c889" d="m73 42 47-25 47 25v7H73zm5 47h84v8H78zm8-39h11v34H86zm29 0h11v34h-11zm28 0h11v34h-11z"/>
+    <circle cx="120" cy="35" r="4" fill="#245854"/>
+  </g>
+  <g transform="translate(0 108)">
+    <path fill="#254664" d="M0 0h240v108H0z"/>
+    <path fill="url(#grid)" d="M0 0h240v108H0z"/>
+    <rect x="74" y="15" width="69" height="79" rx="3" fill="#f4deb0" transform="rotate(-8 110 55)"/>
+    <path stroke="#557271" stroke-width="3" d="M86 35h40m-37 11h39m-37 11h34m-32 11h24"/>
+    <circle cx="137" cy="56" r="22" fill="#63ada68a" stroke="#e5b76c" stroke-width="6"/>
+    <path stroke="#e5b76c" stroke-width="10" stroke-linecap="round" d="m153 73 20 18"/>
+  </g>
+  <g transform="translate(0 216)">
+    <path fill="#793b46" d="M0 0h240v108H0z"/>
+    <path fill="url(#grid)" d="M0 0h240v108H0z"/>
+    <circle cx="120" cy="54" r="43" fill="#a14d52"/>
+    <path fill="#f3d190" d="M85 45h24l43-22v58l-43-16H85z"/>
+    <path fill="#d89559" d="m94 64 15 2 8 21h-13z"/>
+    <path stroke="#f3d190" stroke-width="4" stroke-linecap="round" d="m164 38 11-8m-10 23h14m-15 15 11 8"/>
+  </g>
+  <g transform="translate(0 324)">
+    <path fill="#485972" d="M0 0h240v108H0z"/>
+    <path fill="url(#grid)" d="M0 0h240v108H0z"/>
+    <rect x="72" y="17" width="97" height="74" rx="3" fill="#f2ddb4" transform="rotate(5 120 54)"/>
+    <path stroke="#314c56" stroke-width="5" d="m81 31 79 7"/>
+    <path fill="#6b9891" d="m82 42 30 2-3 28-30-2z"/>
+    <path stroke="#67797b" stroke-width="3" d="m119 47 37 3m-38 6 37 3m-37 6 36 3m-37 6 36 3"/>
+  </g>
+  <g transform="translate(0 432)">
+    <path fill="#243e52" d="M0 0h240v108H0z"/>
+    <path fill="url(#grid)" d="M0 0h240v108H0z"/>
+    <path fill="#426e70" d="m120 9 40 17v29c0 17-14 32-40 44-26-12-40-27-40-44V26z"/>
+    <path d="M109 49v-8a11 11 0 0 1 22 0v8" fill="none" stroke="#f6d69a" stroke-width="6"/>
+    <rect x="102" y="47" width="36" height="29" rx="4" fill="#f6d69a"/>
+    <path stroke="#243e52" stroke-width="4" stroke-linecap="round" d="M120 57v8"/>
+  </g>
+  <g transform="translate(0 540)">
+    <path fill="#71422d" d="M0 0h240v108H0z"/>
+    <path fill="url(#grid)" d="M0 0h240v108H0z"/>
+    <circle cx="120" cy="56" r="37" fill="#49312c" stroke="#f8ce83" stroke-width="6"/>
+    <path stroke="#f8ce83" stroke-width="5" stroke-linecap="round" d="M120 33v23l16 10m-25-52h18"/>
+    <path stroke="#d99b57" stroke-width="3" d="M65 44h12m-18 12h14m-8 12h12m86-24h12m-8 12h14m-18 12h12"/>
+  </g>
+</svg>
