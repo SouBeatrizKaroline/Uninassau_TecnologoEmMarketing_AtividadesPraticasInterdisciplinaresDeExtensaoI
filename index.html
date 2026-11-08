@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Investigue, treine seu feed e proteja uma conta em Conexão Digital.">
-  <title>Conexão Digital | Arquivo de Casos</title>
+  <meta name="description" content="Conexão Digital: Informação, Redes e Segurança — Jogo investigativo Operação Fio Vermelho (UNINASSAU Camaragibe, PE).">
+  <title>Operação Fio Vermelho | Conexão Digital — Arquivo de Casos</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="detective.css">
   <script src="app.js" defer></script>
@@ -13,115 +13,212 @@
 <body>
   <dialog class="intro" id="intro" aria-labelledby="intro-title">
     <div class="intro-card">
-      <p class="kicker">Campanha 01 / Camaragibe, PE</p>
-      <h1 id="intro-title">Operação<br>Fio Vermelho</h1>
-      <p>Um aviso falso começou a circular em Camaragibe. Investigue de onde veio e descubra o que ele tem a ver com uma oferta viral e um falso suporte.</p>
-      <button class="primary" id="begin" autofocus>Assumir investigação <span aria-hidden="true">→</span></button>
-      <small>Seu progresso fica neste dispositivo.</small>
+      <div class="dossier-badge">DOSSIÊ CONFIDENCIAL · UNINASSAU CAMARAGIBE, PE</div>
+      <p class="kicker">Conexão Digital: Informação, Redes e Segurança</p>
+      <h1 id="intro-title">Operação<br><span>Fio Vermelho</span></h1>
+      <p class="intro-lead">Um aviso adulterado no feed, uma promoção com cronômetro falso, e-mails de suporte forjados e mensagens urgentes de Pix no WhatsApp. Oito casos aparentemente isolados escondem uma mesma engrenagem de golpes digitais em Camaragibe.</p>
+      <div class="intro-meta-grid">
+        <div><strong>08 Dossiês</strong><small>Casos de perícia interativa</small></div>
+        <div><strong>Mesa Forense</strong><small>WhatsApp, E-mail, SMS e Feed</small></div>
+        <div><strong>Quadro Fio Vermelho</strong><small>Cruzamento de evidências</small></div>
+      </div>
+      <button class="primary" id="begin" autofocus>Assumir Credencial de Detetive <span aria-hidden="true">→</span></button>
+      <small>Projeto de Extensão em Marketing · Sem coleta de dados · Progresso salvo localmente.</small>
     </div>
   </dialog>
   <header class="topbar">
-    <button class="brand" id="start" type="button"><span class="brand-icon" aria-hidden="true">⌕</span><span>CONEXÃO <b>DIGITAL</b><small>ARQUIVO DE CASOS</small></span></button>
+    <button class="brand" id="start" type="button">
+      <span class="brand-icon" aria-hidden="true">⌕</span>
+      <span>CONEXÃO <b>DIGITAL</b><small>OPERAÇÃO FIO VERMELHO · PERÍCIA</small></span>
+    </button>
     <nav class="menu" aria-label="Menu principal">
-      <button data-view="missao" aria-current="true">Distrito</button>
-      <button data-view="habilidades">Distintivos</button>
-      <button data-view="sobre">Diário</button>
+      <button data-view="missao" aria-current="true">Mapa &amp; Quadro</button>
+      <button data-view="habilidades">Insígnias</button>
+      <button data-view="sobre">Diário &amp; Manual</button>
+      <button data-view="perfil">Credencial</button>
     </nav>
-    <div class="player" aria-label="Status do jogador">
-      <button class="avatar-mini" id="avatar-mini" aria-label="Escolher avatar">✦</button>
-      <span><b id="player-name">Explorador</b><small id="level">Nível 1</small></span>
+    <div class="player" aria-label="Credencial do investigador">
+      <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="true" title="Alternar efeitos sonoros de detetive">🔊 Som</button>
+      <button class="avatar-mini" id="avatar-mini" aria-label="Escolher perfil de detetive" title="Trocar perfil de detetive">✦</button>
+      <span class="badge-identity">
+        <b id="player-name">Explorador</b>
+        <small id="level">Nível 1 · Detetive</small>
+      </span>
       <div class="xp-box"><b id="xp">0</b> XP<div class="xp-track" aria-hidden="true"><i id="xp-fill"></i></div></div>
       <span class="hud-stars" id="hud-stars" aria-label="0 de 8 estrelas">☆☆☆☆☆☆☆☆</span>
     </div>
   </header>
   <main class="game-shell">
     <aside class="case-drawer" aria-labelledby="archive-heading">
-      <div class="drawer-head"><p class="kicker">Campanha 01</p><h2 id="archive-heading">Fio Vermelho</h2><p class="progress-copy"><b id="completed">0</b>/8 casos arquivados</p></div>
+      <div class="drawer-head">
+        <div class="drawer-stamp">ARQUIVO FORENSE</div>
+        <p class="kicker">Divisão Camaragibe · PE</p>
+        <h2 id="archive-heading">Fio Vermelho</h2>
+        <p class="progress-copy"><b id="completed">0</b>/8 dossiês solucionados</p>
+      </div>
       <div class="path" id="case-files"></div>
     </aside>
     <div class="game-workspace">
-    <section class="profile game-view" id="perfil" aria-labelledby="profile-title" hidden>
-      <div>
-        <p class="kicker">Seleção de personagem</p>
-        <h2 id="profile-title" tabindex="-1">Escolha seu avatar</h2>
-        <p class="muted">Escolha seu perfil de investigação. Todos os personagens podem resolver os oito casos.</p>
-        <div class="profile-current"><span class="avatar avatar-small" id="hero-avatar" aria-hidden="true">✦</span><strong id="hero-caption"></strong></div>
-      </div>
-      <div class="avatars">
-        <button class="avatar-option" data-avatar="✦" data-name="Explorador" aria-pressed="false">✦<small>Explorador</small></button>
-        <button class="avatar-option" data-avatar="◈" data-name="Analista" aria-pressed="false">◈<small>Analista</small></button>
-        <button class="avatar-option" data-avatar="✹" data-name="Estrategista" aria-pressed="false">✹<small>Estrategista</small></button>
-        <button class="avatar-option" data-avatar="⬢" data-name="Guardião" aria-pressed="false">⬢<small>Guardião</small></button>
-      </div>
-    </section>
-    <section class="journey game-view" id="missao" aria-labelledby="map-title">
-      <div class="district">
-        <div class="district-scene">
-          <div class="scene-heading"><p class="kicker">Distrito 01 / Pernambuco</p><h2 id="map-title" tabindex="-1">Camaragibe</h2></div>
-          <canvas id="district-map" width="720" height="432" tabindex="0" aria-label="Mapa do distrito. Use as setas para andar e Enter para abrir um caso. Os mesmos casos estão listados no arquivo."></canvas>
-          <div class="map-controls" aria-label="Controles do mapa">
-            <button data-move="up" aria-label="Andar para cima">↑</button>
-            <button data-move="left" aria-label="Andar para a esquerda">←</button>
-            <button data-move="down" aria-label="Andar para baixo">↓</button>
-            <button data-move="right" aria-label="Andar para a direita">→</button>
+      <section class="profile game-view" id="perfil" aria-labelledby="profile-title" hidden>
+        <div class="credential-card">
+          <div class="credential-header">
+            <span class="credential-seal">⌕ PERÍCIA DIGITAL · UNINASSAU</span>
+            <span class="credential-id">POLO CAMARAGIBE · PE</span>
+          </div>
+          <div class="credential-body">
+            <div>
+              <p class="kicker">Credencial de Investigador</p>
+              <h2 id="profile-title" tabindex="-1">Escolha sua especialidade</h2>
+              <p class="muted">Cada perfil representa uma lente da investigação em Marketing, Redes e Segurança Digital. Todos os detetives têm acesso integral aos oito casos da Operação Fio Vermelho.</p>
+              <div class="profile-current">
+                <span class="avatar avatar-small" id="hero-avatar" aria-hidden="true">✦</span>
+                <div>
+                  <strong id="hero-caption"></strong>
+                  <small class="credential-rank" id="credential-rank">Patente atual: Detetive Júnior</small>
+                </div>
+              </div>
+            </div>
+            <div class="avatars">
+              <button class="avatar-option" data-avatar="✦" data-name="Explorador" aria-pressed="false">✦<small>Explorador</small><em>Checagem &amp; Fontes</em></button>
+              <button class="avatar-option" data-avatar="◈" data-name="Analista" aria-pressed="false">◈<small>Analista</small><em>Padrões &amp; Algoritmos</em></button>
+              <button class="avatar-option" data-avatar="✹" data-name="Estrategista" aria-pressed="false">✹<small>Estrategista</small><em>Anúncios &amp; Gatilhos</em></button>
+              <button class="avatar-option" data-avatar="⬢" data-name="Guardião" aria-pressed="false">⬢<small>Guardião</small><em>Defesa Anti-Golpes</em></button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-    <section class="play-area game-view" id="play" aria-labelledby="question" hidden>
-      <div class="play-top">
-        <span id="mission-name"></span>
-          <span id="case-stage">Estágio 1/3</span>
-        <button class="mission-action" id="back-to-map">← Voltar ao mapa</button>
-      </div>
-      <div class="bar" aria-hidden="true"><i id="bar-fill"></i></div>
-      <p class="scenario" id="scenario"></p>
-      <div class="question-line">
-        <div class="avatar avatar-small" id="game-avatar" aria-hidden="true">✦</div>
-        <h2 id="question" tabindex="-1"></h2>
-      </div>
-      <div class="game-stage" id="game-stage"></div>
-      <p class="result" id="result" role="status"></p>
-      <button class="primary next" id="next" hidden></button>
-    </section>
-    <section class="skills game-view" id="habilidades" aria-labelledby="skills-title" hidden>
-      <p class="kicker">Sala de conquistas</p>
-      <h2 id="skills-title" tabindex="-1">Seus distintivos</h2>
-      <div class="skill-grid">
-        <div class="skill" id="skill-news"><span aria-hidden="true">⌕</span><b>Olhar crítico</b><small>Bloqueado</small></div>
-        <div class="skill" id="skill-timeline"><span aria-hidden="true">⌛</span><b>Rastreador de contexto</b><small>Bloqueado</small></div>
-        <div class="skill" id="skill-influence"><span aria-hidden="true">◉</span><b>Leitura de feed</b><small>Bloqueado</small></div>
-        <div class="skill" id="skill-advertising"><span aria-hidden="true">◇</span><b>Leitura de campanha</b><small>Bloqueado</small></div>
-        <div class="skill" id="skill-phishing"><span aria-hidden="true">✉</span><b>Perícia de e-mail</b><small>Bloqueado</small></div>
-        <div class="skill" id="skill-privacy"><span aria-hidden="true">◇</span><b>Modo proteção</b><small>Bloqueado</small></div>
-        <div class="skill" id="skill-finale"><span aria-hidden="true">◆</span><b>Investigação integrada</b><small>Bloqueado</small></div>
-        <div class="skill" id="skill-inbox"><span aria-hidden="true">▣</span><b>Verificação independente</b><small>Bloqueado</small></div>
-        <div class="skill final-skill"><span aria-hidden="true">★</span><b>Guardião digital</b><small>Complete os oito casos</small></div>
-      </div>
-    </section>
-    <section class="reflection game-view" id="sobre" hidden>
-      <div>
-        <p class="kicker">Diário de bordo</p>
-        <h2 id="journal-title" tabindex="-1">O que você leva para suas redes?</h2>
-        <p class="muted">Registre um cuidado que pretende adotar. A reflexão fica neste dispositivo.</p>
-      </div>
-      <form id="feedback-form">
-        <label for="message">Minha reflexão</label>
-        <textarea id="message" maxlength="280" required placeholder="Ex.: vou conferir a fonte antes de compartilhar."></textarea>
-        <button class="primary" type="submit">Salvar reflexão</button>
-        <p id="form-status" role="status"></p>
-      </form>
-    </section>
+      </section>
+
+      <section class="journey game-view" id="missao" aria-labelledby="map-title">
+        <div class="district">
+          <div class="district-scene">
+            <div class="scene-heading">
+              <p class="kicker">Quadro Tático · Distrito 01 / Pernambuco</p>
+              <h2 id="map-title" tabindex="-1">Camaragibe · Mapa de Casos</h2>
+            </div>
+            <div class="map-legend" aria-hidden="true">
+              <span><i class="dot-open"></i> Caso Aberto</span>
+              <span><i class="dot-done"></i> Arquivado</span>
+              <span><i class="dot-thread"></i> Fio Vermelho</span>
+            </div>
+            <canvas id="district-map" width="720" height="432" tabindex="0" aria-label="Mapa investigativo do distrito de Camaragibe. Use as setas ou clique em um pino para inspecionar um local e pressione Enter para abrir o dossiê."></canvas>
+            <div class="map-controls" aria-label="Controles de deslocamento do detetive">
+              <span class="map-controls-label">Deslocar perito:</span>
+              <button data-move="up" aria-label="Andar para cima">↑</button>
+              <button data-move="left" aria-label="Andar para a esquerda">←</button>
+              <button data-move="down" aria-label="Andar para baixo">↓</button>
+              <button data-move="right" aria-label="Andar para a direita">→</button>
+              <span class="map-controls-hint">Dica: clique direto nos pinos numerados ou use as setas + Enter</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="play-area game-view" id="play" aria-labelledby="question" hidden>
+        <div class="case-folder-tabs" aria-hidden="true">
+          <span class="folder-tab-main" id="mission-name">CASO 01</span>
+          <span class="folder-tab-sub" id="case-stage">1/3 · Briefing</span>
+          <span class="folder-stamp" id="folder-stamp">SOB INVESTIGAÇÃO</span>
+        </div>
+        <div class="play-top">
+          <div class="play-top-meta">
+            <p class="scenario" id="scenario"></p>
+          </div>
+          <div class="play-top-actions">
+            <button class="choice-action loupe-btn" id="toggle-loupe" type="button" aria-pressed="false">⌕ Lupa Forense (Dica)</button>
+            <button class="mission-action" id="back-to-map" type="button">← Voltar ao Quadro</button>
+          </div>
+        </div>
+        <div class="bar" aria-hidden="true"><i id="bar-fill"></i></div>
+        <div class="question-line">
+          <div class="avatar avatar-small" id="game-avatar" aria-hidden="true">✦</div>
+          <div>
+            <h2 id="question" tabindex="-1"></h2>
+            <p class="case-subtitle" id="case-subtitle"></p>
+          </div>
+        </div>
+        <aside class="loupe-drawer" id="loupe-drawer" hidden aria-live="polite">
+          <div class="loupe-drawer-head"><strong>⌕ Nota Técnica da Perícia</strong><span class="loupe-tag">LENTE DE ANÁLISE</span></div>
+          <p id="loupe-hint-text"></p>
+        </aside>
+        <div class="game-stage" id="game-stage"></div>
+        <p class="result" id="result" role="status"></p>
+        <button class="primary next" id="next" hidden></button>
+      </section>
+
+      <section class="skills game-view" id="habilidades" aria-labelledby="skills-title" hidden>
+        <div class="section-banner">
+          <div>
+            <p class="kicker">Quadro de Mérito Forense</p>
+            <h2 id="skills-title" tabindex="-1">Insígnias &amp; Distintivos de Investigação</h2>
+            <p class="muted">Cada caso encerrado concede uma insígnia técnica de combate à desinformação e aos golpes digitais.</p>
+          </div>
+        </div>
+        <div class="skill-grid">
+          <div class="skill" id="skill-news"><span aria-hidden="true">⌕</span><b>Olhar crítico</b><small>Bloqueado</small><p class="skill-desc">Verificação de autoria, recorte de imagem e boletins oficiais.</p></div>
+          <div class="skill" id="skill-timeline"><span aria-hidden="true">⌛</span><b>Rastreador de contexto</b><small>Bloqueado</small><p class="skill-desc">Reconstrução cronológica contra conteúdos fora de época.</p></div>
+          <div class="skill" id="skill-influence"><span aria-hidden="true">◉</span><b>Leitura de feed</b><small>Bloqueado</small><p class="skill-desc">Controle de algoritmos, redução de ruído e caça-cliques.</p></div>
+          <div class="skill" id="skill-advertising"><span aria-hidden="true">◇</span><b>Leitura de campanha</b><small>Bloqueado</small><p class="skill-desc">Identificação de publicidade oculta e falsa escassez.</p></div>
+          <div class="skill" id="skill-phishing"><span aria-hidden="true">✉</span><b>Perícia de e-mail</b><small>Bloqueado</small><p class="skill-desc">Análise de domínio remetente, links falsos e códigos 2FA.</p></div>
+          <div class="skill" id="skill-privacy"><span aria-hidden="true">🛡️</span><b>Modo proteção</b><small>Bloqueado</small><p class="skill-desc">Blindagem com senha única, 2FA e acesso por canal oficial.</p></div>
+          <div class="skill" id="skill-inbox"><span aria-hidden="true">▣</span><b>Verificação independente</b><small>Bloqueado</small><p class="skill-desc">Triagem de golpes de Pix, falso sequestro, SMS e boletos.</p></div>
+          <div class="skill" id="skill-finale"><span aria-hidden="true">◆</span><b>Investigação integrada</b><small>Bloqueado</small><p class="skill-desc">Cruzamento de provas no quadro Operação Fio Vermelho.</p></div>
+          <div class="skill final-skill"><span aria-hidden="true">★</span><b>Guardião digital</b><small>Complete os oito casos</small><p class="skill-desc">Insígnia máxima da divisão Conexão Digital — UNINASSAU Camaragibe.</p></div>
+        </div>
+      </section>
+
+      <section class="reflection game-view" id="sobre" hidden>
+        <div class="journal-grid">
+          <div class="journal-box">
+            <p class="kicker">Diário de Bordo do Detetive</p>
+            <h2 id="journal-title" tabindex="-1">O que você leva para suas redes?</h2>
+            <p class="muted">Registre um protocolo de verificação ou cuidado que você pretende adotar no dia a dia. Sua anotação fica arquivada neste dispositivo.</p>
+            <form id="feedback-form">
+              <label for="message">Nota de campo do investigador</label>
+              <textarea id="message" maxlength="280" required placeholder="Ex.: Nunca vou transferir Pix para um 'número novo' sem antes ligar para o número antigo que já tenho salvo."></textarea>
+              <button class="primary" type="submit">Carimbar e Salvar no Diário</button>
+              <p id="form-status" role="status"></p>
+            </form>
+          </div>
+          <div class="manual-box">
+            <p class="kicker">Manual de Campo · Protocolo Anti-Golpes</p>
+            <h3>5 Regras de Ouro da Divisão Forense</h3>
+            <ul class="manual-list">
+              <li><strong>1. Pedido de Pix de “Número Novo” (WhatsApp):</strong> Golpistas usam foto pública e dizem que o app do banco travou. <em>Defesa:</em> Ligue por chamada de voz ou vídeo para o número antigo já salvo na sua agenda.</li>
+              <li><strong>2. Falso Sequestro por Telefone/Mensagem:</strong> Usam gritos simulados e exigem Pix imediato dizendo “não desligue”. <em>Defesa:</em> Peça para outra pessoa contatar o familiar em paralelo e acione a Polícia Militar (<strong>190</strong>).</li>
+              <li><strong>3. Taxa de Entrega por SMS (Smishing):</strong> Mensagens sobre pacotes retidos com links encurtados ou estranhos. <em>Defesa:</em> Nunca abra o link do SMS; consulte o rastreio direto no aplicativo oficial da loja ou dos Correios.</li>
+              <li><strong>4. E-mail de Suporte ou Remetente Falsificado (Spoofing):</strong> O campo “De:” pode ser falsificado para parecer seu próprio e-mail ou um banco. <em>Defesa:</em> Nunca informe códigos de 6 dígitos (SMS/2FA) e verifique a atividade direto no app oficial.</li>
+              <li><strong>5. Boleto ou Fatura Atualizada por Anexo/WhatsApp:</strong> Segunda via com código de barras adulterado. <em>Defesa:</em> Emita faturas apenas na área oficial do cliente e confira o nome e CNPJ do beneficiário antes de confirmar a senha.</li>
+            </ul>
+            <div class="manual-refs">
+              <p class="kicker">Fontes Oficiais de Consulta</p>
+              <div class="ref-links">
+                <a href="https://www.gov.br/anatel/pt-br/assuntos/dicas-contra-fraudes/modelo-de-capa-2/golpes-atuais-mais-comuns" target="_blank" rel="noopener noreferrer">Anatel · Golpes Digitais Mais Comuns ↗</a>
+                <a href="https://www.policiacivil.pr.gov.br/Noticia/PCPR-e-PMPR-localizam-crianca-vitima-de-golpe-do-falso-sequestro-em-Mambore" target="_blank" rel="noopener noreferrer">Polícia Civil · Alerta Falso Sequestro ↗</a>
+                <a href="https://www.csa.gov.sg/alerts-and-advisories/advisories/ad-2024-017/" target="_blank" rel="noopener noreferrer">CSA · E-mails Falsificados (Spoofing) ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
+
     <aside class="field-dialogue" aria-labelledby="radio-title">
-      <div class="radio-portrait"><span class="radio-signal">● EM ESCUTA</span></div>
+      <div class="radio-portrait">
+        <span class="radio-signal">● RÁDIO FORENSE · FREQ 104.8</span>
+      </div>
       <div class="radio-copy">
-        <p class="kicker">Canal de campo / 01</p><h2 id="radio-title">Inspetora Lia</h2>
-        <p id="map-radio" role="status">Abra um caso no arquivo ou siga até um local marcado no distrito.</p>
-        <button class="primary" id="map-interact" disabled>Investigar local</button>
+        <p class="kicker">Comando da Operação</p>
+        <h2 id="radio-title">Inspetora Lia</h2>
+        <blockquote id="map-radio" role="status">Abra uma pasta no arquivo à esquerda ou desloque o perito até um pino numerado no mapa de Camaragibe.</blockquote>
+        <div class="radio-stats" id="radio-stats">
+          <span> Caso ativo: <b id="radio-case-indicator">Distrito</b></span>
+        </div>
+        <button class="primary" id="map-interact" disabled>⌕ Investigar Local</button>
       </div>
     </aside>
   </main>
-  <footer>Conexão Digital · Projeto de extensão em letramento digital</footer>
+  <footer>
+    <span><strong>Conexão Digital: Informação, Redes e Segurança</strong> · UNINASSAU (Polo Camaragibe, PE) · Curso Tecnólogo em Marketing</span>
+  </footer>
 </body>
 </html>
