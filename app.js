@@ -428,7 +428,7 @@ function inspectDocument({ title, prompt, fields, reference, comparison, email =
   const marked = new Set();
   const expected = fields.filter(([, , clue]) => clue).length;
   const documentHeading = email
-    ? '<div class="mail-toolbar"><span>✉ Perícia de E-mail · Cabeçalho &amp; Links</span><span>EVIDÊNCIA 05–A</span></div>'
+    ? '<div class="mail-toolbar"><span>✉ Perícia de E-mail · Cabeçalho &amp; Links</span><span>EVIDÊNCIA 05–A</span></div><div class="whois-banner"><svg class="whois-svg" viewBox="305 10 285 160"><use href="evidencias.svg#whois-terminal"/></svg></div>'
     : '<p class="paper-stamp">Captura de anúncio · Simulação</p><img class="ad-evidence-art" src="feed-art.svg#clock" alt="">';
   stage.innerHTML = '<p class="round-goal">' + prompt + '</p><article class="evidence-paper' +
     (email ? ' mail-client' : '') + '">' + documentHeading +
@@ -620,6 +620,14 @@ function triage() {
   let incident = 0;
   function openIncident() {
     const [channel, sender, first, second, safe, outcome, lesson, redflags] = incidents[incident];
+    const visualCards = [
+      `<div class="incident-visual-box"><div class="visual-header">🔍 EVIDÊNCIA ANEXADA: CONTATO DESCONHECIDO</div><div class="contact-card-sim"><span class="sim-avatar">👤</span><div><strong>+55 (81) 98744-XXXX</strong><small>Foto copiada de perfil público nas redes sociais</small></div><span class="flag-warn">⚠️ NÚMERO NÃO CONSTA NA AGENDA</span></div></div>`,
+      `<div class="incident-visual-box"><div class="visual-header">🚨 PROTOCOLO POLICIAL DE EXTORSÃO</div><svg class="incident-svg" viewBox="305 185 285 165"><use href="evidencias.svg#protocolo-policia"/></svg></div>`,
+      `<div class="incident-visual-box"><div class="visual-header">🔍 ANÁLISE DE DOMÍNIO (SMISHING)</div><svg class="incident-svg" viewBox="305 10 285 160"><use href="evidencias.svg#whois-terminal"/></svg></div>`,
+      `<div class="incident-visual-box"><div class="visual-header">🔍 CABEÇALHO BRUTO (SPOOFING)</div><div class="raw-header-box"><code>From: &lt;eu@exemplo.example&gt;\nReturn-Path: &lt;spammer@srv-desconhecido.xyz&gt;\nAuthentication-Results: spf=fail (IP 198.51.100.22)</code><small class="header-note">O remetente exibido no app foi falsificado. O servidor de origem não pertence ao provedor.</small></div></div>`,
+      `<div class="incident-visual-box"><div class="visual-header">📄 ANÁLISE DO BOLETO ADULTERADO</div><svg class="incident-svg" viewBox="10 10 280 160"><use href="evidencias.svg#boleto-fraude"/></svg></div>`,
+    ];
+
     const choices = [
       '<button class="choice-action" id="incident-reply">✗ ' + ['Responder na conversa e pedir a chave Pix', 'Fazer o Pix imediatamente pelo medo', 'Clicar no link do SMS para pagar a taxa', 'Responder ao e-mail tentando negociar', 'Pagar o boleto em PDF recebido no anexo'][incident] + '</button>',
       '<button class="choice-action" id="incident-check">✓ ' + safe + '</button>',
@@ -640,7 +648,7 @@ function triage() {
             <p>${second}</p>
             ${channel === 'SMS' ? '<button class="choice-action" id="incident-preview">⌕ Inspecionar URL com Lupa Forense</button><p id="incident-destination" hidden><strong>Análise de URL:</strong> O domínio "entregas-pendentes.example" foi registrado há 2 dias e imita uma página de pagamento.</p>' : ''}
           </div>
-          <p class="forensic-redflags"><strong>⌕ Raio-X Pericial:</strong> ${redflags}</p>
+          <p class="forensic-redflags"><strong>⌕ Raio-X Pericial:</strong> ${redflags}</p>${visualCards[incident]}
         </article>
         <section class="algorithm-board">
           <p class="kicker">Mesa de Triagem · Plantão de Golpes</p>
@@ -755,6 +763,16 @@ function connectEvidence() {
 
 function witnessChat() {
   return `
+    <article class="cassette-evidence-card">
+      <div class="cassette-photo-wrap">
+        <img class="cassette-thumb" src="gravador.jpg" alt="Gravador de fita cassete pericial com etiqueta Prova 08-A">
+        <div class="cassette-meta">
+          <span class="evidence-tag-badge">ITEM APREENDIDO · PROVA 08-A</span>
+          <strong>Micro-Gravador de Voz &amp; Registro Telefônico</strong>
+          <small>Depoimento colhido na Delegacia de Camaragibe · Transcrição pericial autenticada</small>
+        </div>
+      </div>
+    </article>
     <details class="chat-evidence" open>
       <summary>▣ Evidência 08–A · Conversa Recuperada do Grupo do Bairro (WhatsApp Simulado)</summary>
       <div class="chat-head"><strong>Grupo dos Moradores · Camaragibe</strong><small>Exportação forense · Áudio transcrito</small></div>
@@ -762,7 +780,7 @@ function witnessChat() {
         <p><b>Rafa</b>Alguém viu esse aviso? A postagem manda abrir uma oferta exclusiva.<small>08:11</small></p>
         <p class="chat-out"><b>Júlia</b>Eu abri. A página pediu meu e-mail para mandar a confirmação.<small>08:14</small></p>
         <p><b>Rafa</b>E o que veio na confirmação?<small>08:15</small></p>
-        <p class="chat-out"><b>Júlia · Mensagem de voz (0:14)</b><button id="play-witness" class="choice-action" type="button">▶ Ouvir gravação de voz</button><small id="witness-status" role="status"></small>
+        <p class="chat-out"><b>Júlia · Mensagem de voz (0:14)</b><button id="play-witness" class="choice-action" type="button">▶ Reproduzir gravação da fita</button><small id="witness-status" role="status"></small>
           <span id="witness-text">Depois de cadastrar meu e-mail, recebi uma mensagem que dizia ser do suporte. O botão apontava para o mesmo endereço da oferta e o texto pedia o código de acesso.</span><small>08:17 · Transcrição pericial</small></p>
       </div>
     </details>`;
@@ -894,7 +912,7 @@ function investigate() {
         <p id="evidence-detail" aria-live="polite">Clique em cada parte da postagem ao lado para inspecionar e fixe no dossiê as 3 pistas que comprovam manipulação.</p>
         <div id="photo-archive" class="photo-archive" hidden>
           <button class="choice-action" id="compare-photo">⌕ Recuperar arquivo sem recorte no banco de imagens →</button>
-          <figure id="original-photo" hidden><img src="aviso.svg" alt=""><figcaption><strong>Metadados revelados:</strong> Cartaz original de Vila do Farol (Agosto de 2024) — rodapé foi cortado no post viral.</figcaption></figure>
+          <figure id="original-photo" hidden><div class="polaroid-wrapper"><svg class="polaroid-svg" viewBox="10 185 280 165"><use href="evidencias.svg#polaroid-evidencia"/></svg><img src="aviso.svg" alt="Cartaz original com rodapé integro"></div><figcaption><strong>Metadados revelados pela Lupa Forense:</strong> Cartaz original de Vila do Farol (Agosto de 2024) — rodapé com data e município foi cortado de propósito na publicação viral.</figcaption></figure>
         </div>
         <button class="choice-action" id="pin" hidden>📌 Fixar pista no dossiê</button>
         <div class="dossier">
