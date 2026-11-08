@@ -11,12 +11,19 @@ Abra `index.html` em um navegador moderno. Use o arquivo de casos ou explore o d
 | **01 · O detetive do feed** | Examine perfil, imagem, legenda e reações. Monte um dossiê e consulte o boletim oficial. |
 | **02 · O recorte fora de hora** | Organize três registros para identificar uma publicação tirada de contexto. |
 | **03 · Por trás da tela** | Interaja com as publicações e veja como o algoritmo simulado muda as recomendações. |
-| **04 · O anúncio de cinco minutos** | Marque trechos que ocultam o patrocínio ou pressionam a compra. |
+| **04 · O anúncio de cinco minutos** | Revise uma oferta e veja a prévia mudar ao identificar o patrocínio, retirar a falsa urgência e mostrar as condições. |
 | **05 · O suporte que pediu o código** | Examine o remetente, revele o destino do botão e marque os trechos suspeitos dentro do e-mail. Anexe as pistas ao dossiê e escolha um canal para verificar o aviso. |
 | **06 · Modo proteção** | Equipe três defesas e teste a conta contra as ameaças simuladas. |
-| **07 · Operação Fio Vermelho** | Cruze os documentos para reconstruir como a operação tentou obter o código de acesso. |
+| **07 · Plantão de golpes** | Confira cinco alertas simulados. Investigue pedidos de Pix de um número novo, falso sequestro, link de entrega, e-mail com remetente falsificado e boleto falso. |
+| **08 · Operação Fio Vermelho** | Consulte a conversa recuperada e ligue os documentos que comprovam cada vínculo. |
 
-Cada caso tem briefing, investigação e relatório. A primeira conclusão rende 60 XP, uma estrela, um distintivo e libera a próxima pasta. Casos arquivados podem ser reabertos. As sete estrelas liberam a conquista **Guardião digital**.
+Cada caso tem briefing, investigação e relatório. A primeira conclusão rende 60 XP, uma estrela, um distintivo e libera a próxima pasta. Casos arquivados podem ser reabertos. As oito estrelas liberam a conquista **Guardião digital**.
+
+## Referências para o plantão
+
+- [Polícia Civil do Paraná · Falso sequestro](https://www.policiacivil.pr.gov.br/Noticia/PCPR-e-PMPR-localizam-crianca-vitima-de-golpe-do-falso-sequestro-em-Mambore)
+- [Anatel · Golpes atuais mais comuns](https://www.gov.br/anatel/pt-br/assuntos/dicas-contra-fraudes/modelo-de-capa-2/golpes-atuais-mais-comuns)
+- [Agência de Segurança Cibernética de Singapura · E-mails de extorsão e remetentes falsificados](https://www.csa.gov.sg/alerts-and-advisories/advisories/ad-2024-017/)
 
 ## Uso na ação de extensão
 

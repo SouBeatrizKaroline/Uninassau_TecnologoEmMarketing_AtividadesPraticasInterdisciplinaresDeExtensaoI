@@ -361,6 +361,20 @@ footer { background: #141e20; border-color: #3a4a46; }
 .chat-thread b, .chat-thread small, #witness-text { display: block; }
 .chat-thread small { color: #415d4f; font-size: .75rem; }
 #witness-text { margin-top: 6px; }
+.timeline-thumb { display: block; width: 100%; aspect-ratio: 240 / 108; object-fit: cover; margin-bottom: 10px; }
+.chronology-board { padding: 14px; border: 1px solid #8a7762; background: repeating-linear-gradient(0deg, #3d3024 0 12px, #453729 13px); }
+.chronology-board h3 { margin: 0 0 10px; font: 700 1.25rem Georgia, serif; }
+#record-order { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+#record-order li { min-height: 50px; display: grid; place-items: center; padding: 5px; text-align: center; font: 700 .75rem var(--mono); }
+.empty-record { border: 1px dashed #bda47c; color: #f1d4aa; }
+.placed-record { border: 1px solid #b68d57; background: #efd4a2; color: #372417; }
+.ad-workbench .ad-evidence-art { max-width: 100%; width: 100%; margin: 0 0 12px; }
+#publish-ad { margin-top: 12px; }
+[data-edit-ad][aria-pressed="true"] { border-color: #9dc9aa; background: #325144; }
+.incident-screen .chat-thread { min-height: 185px; }
+.incident-report { margin-top: 12px; padding: 10px; border-left: 2px solid #9bd0ad; background: #233a32; }
+.record[data-link][aria-pressed="true"] { outline: 3px solid #ad4734; outline-offset: -5px; }
+.connection-list { display: grid; gap: 5px; margin: 0; padding-left: 20px; color: #e7c897; }
 
 @media (max-width: 580px) {
   .forensics, .verdict-board, .feed-lab { grid-template-columns: 1fr; }

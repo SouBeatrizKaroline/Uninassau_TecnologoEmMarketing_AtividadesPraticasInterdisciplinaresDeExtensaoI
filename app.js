@@ -33,18 +33,7 @@ const missions = {
     scene: 'CAPTURA DE ANÚNCIO',
     badge: 'Leitura de campanha',
     recap: 'A contagem regressiva, a promessa de exclusividade e o patrocínio escondido indicam técnicas de persuasão. Avalie os termos e a identidade de quem anuncia antes de comprar.',
-    play: () => inspectDocument({
-      title: 'Uma oferta aparece repetidamente no feed',
-      prompt: 'Marque três trechos que pressionam a compra ou dificultam identificar a publicidade.',
-      fields: [
-        ['Anunciante', 'Parceria paga aparece em cinza, depois de uma longa lista de hashtags.', true],
-        ['Imagem', 'O produto é fotografado sobre uma mesa.', false],
-        ['Chamada', 'Só quem faz parte do grupo recebe este preço.', true],
-        ['Relógio', 'Restam 05:00. O relógio reinicia quando a página recarrega.', true],
-        ['Formato', 'O anúncio foi publicado como vídeo vertical.', false],
-      ],
-      reference: 'O anúncio precisa ser reconhecível como publicidade. A pressão do relógio não substitui a conferência dos termos e da loja.',
-    }),
+    play: editAd,
   },
   phishing: {
     label: 'Phishing e roubo de conta',
@@ -75,18 +64,21 @@ const missions = {
     recap: 'A senha exclusiva, o segundo fator e a verificação pelo canal oficial bloquearam ameaças diferentes.',
     play: defend,
   },
+  inbox: {
+    label: 'Fraudes por mensagem',
+    title: 'Plantão de golpes',
+    scene: 'CENTRAL DE INCIDENTES',
+    badge: 'Verificação independente',
+    recap: 'Você confirmou a identidade por um contato conhecido, verificou a situação da família, consultou o rastreio oficial e conferiu a atividade da conta sem usar os atalhos recebidos.',
+    play: triage,
+  },
   finale: {
     label: 'Reconstrução do caso',
     title: 'Operação Fio Vermelho',
     scene: 'QUADRO DE EVIDÊNCIAS',
     badge: 'Investigação integrada',
     recap: 'O aviso reutilizado atraiu atenção, o anúncio pressionou a interação e o falso suporte tentou obter o código. Os documentos ligam os endereços à mesma operação, mas a identidade de quem está por trás continua em aberto.',
-    play: () => arrange('Reconstrua o caminho até a tentativa de roubo de conta. Use a origem de cada registro para conectar as peças.', [
-      ['Recorte de bairro', 'A publicação viral manda quem clicou para uma oferta exclusiva.'],
-      ['Oferta em destaque', 'A página painel-de-acesso.example recolhe um e-mail e promete enviar uma confirmação.'],
-      ['Mensagem de confirmação', 'O falso suporte aponta para painel-de-acesso.example e pede um código de acesso.'],
-      ['Registro de atendimento', 'O canal independente confirma que os endereços não pertencem ao serviço.'],
-    ]),
+    play: connectEvidence,
   },
 };
 
@@ -205,7 +197,7 @@ function updateHud() {
   });
   const won = done.size === missionIds.length;
   $('.final-skill').classList.toggle('unlocked', won);
-  $('.final-skill small').textContent = won ? 'Arquivo completo' : 'Complete os sete casos';
+  $('.final-skill small').textContent = won ? 'Arquivo completo' : 'Complete os oito casos';
   document.dispatchEvent(new Event('case-progress'));
 }
 
@@ -309,6 +301,7 @@ const briefings = {
   advertising: 'Uma oferta começou a aparecer junto com o conteúdo viral. Procure sinais de publicidade pouco transparente e pressão pela compra.',
   phishing: 'Quem abriu a oferta recebeu um e-mail de suporte. Analise os detalhes e compare com as informações da conta.',
   privacy: 'O e-mail pode ter colocado a conta em risco. Monte uma defesa e verifique o que ela bloqueia.',
+  inbox: 'Chegaram cinco alertas ao plantão. Abra cada conversa e confira a situação por um canal independente. Um dos registros contém uma ameaça fictícia de sequestro.',
   finale: 'Reúna os registros dos casos anteriores. O relatório precisa ligar a publicação viral ao falso suporte sem atribuir identidade a ninguém sem prova.',
 };
 
@@ -408,10 +401,164 @@ function inspectDocument({ title, prompt, fields, reference, comparison, email =
   updateMarks();
 }
 
-function arrange(prompt, records) {
-  const order = [];
-  const shuffled = [2, 0, 1, 3].filter((index) => index < records.length);
-  const chat = activeMission === 'finale' ? `
+function editAd() {
+  const changes = new Set();
+  const edits = [
+    ['Identificar o patrocínio', 'Parceria paga · Loja Estação', 'Patrocínio escondido'],
+    ['Retirar a falsa urgência', 'Oferta sem cronômetro · Consulte o prazo', '05:00 · Só agora!'],
+    ['Mostrar condições e vendedor', 'Loja Estação · Consulte preço, frete e condições', 'Oferta exclusiva · Compre já'],
+  ];
+  stage.innerHTML = `
+    <p class="round-goal">Você recebeu a peça para revisão. Edite o anúncio e acompanhe o resultado na prévia.</p>
+    <div class="feed-lab">
+      <article class="evidence-paper ad-workbench">
+        <img class="ad-evidence-art" src="feed-art.svg#clock" alt="">
+        <p class="paper-stamp" id="ad-0"></p>
+        <h3 id="ad-1"></h3><p id="ad-2"></p>
+      </article>
+      <section class="algorithm-board"><p class="kicker">Ferramentas de edição</p>
+        <div class="verdict-actions">${edits.map(([label], index) => '<button class="choice-action" data-edit-ad="' + index + '" aria-pressed="false">' + label + '</button>').join('')}</div>
+        <button class="primary" id="publish-ad" disabled>Entregar peça revisada →</button>
+      </section>
+    </div>`;
+  const controls = all('[data-edit-ad]');
+  const publish = $('#publish-ad');
+  function preview() {
+    controls.forEach((control, index) => {
+      const enabled = changes.has(index);
+      control.setAttribute('aria-pressed', enabled);
+      $('#ad-' + index).textContent = edits[index][enabled ? 1 : 2];
+    });
+    publish.disabled = changes.size !== edits.length;
+    setBar(changes.size, edits.length);
+  }
+  controls.forEach((control, index) => {
+    control.onclick = () => {
+      if (!changes.delete(index)) changes.add(index);
+      preview();
+    };
+  });
+  publish.onclick = () => finishMission('A nova peça identifica a publicidade e mostra onde consultar as condições da oferta.');
+  preview();
+}
+
+const incidents = [
+  ['WhatsApp', 'Número desconhecido', 'Oi, mãe! Troquei de número.', 'Me faz um Pix agora? Meu banco ainda não funciona neste celular.', 'Ligar para o número já salvo', 'O familiar atende no número conhecido e confirma que não pediu dinheiro.', 'Foto, nome e uma história urgente não confirmam identidade. Confira por um contato que você já conhece.'],
+  ['WhatsApp', 'Contato sem identificação', 'Estamos com seu irmão. Faça um Pix.', 'Não avise ninguém.', 'Acionar a polícia e pedir ajuda para confirmar em paralelo', 'A equipe do plantão faz a verificação. O familiar é localizado em segurança e a ameaça é registrada.', 'Em situação real de risco imediato, ligue 190 e siga as orientações da polícia.'],
+  ['SMS', 'Aviso de entrega', 'Entrega retida por taxa.', 'Acesse entregas-pendentes.example/liberar para liberar seu pacote.', 'Consultar o rastreio pelo app da loja', 'O rastreio oficial não mostra taxa pendente. O endereço do SMS não pertence ao serviço.', 'Abra o canal da loja ou da transportadora que você já conhece. Confira ali o status do pedido.'],
+  ['E-mail', 'De: eu@exemplo.example', 'Eu entrei na sua conta. Pague para evitar a divulgação dos seus dados.', 'O campo “De” mostra o mesmo endereço que o seu.', 'Abrir o provedor e conferir a atividade da conta', 'Nesta simulação, o provedor não encontrou acesso suspeito. O remetente exibido pode ser falsificado.', 'Se houver acesso desconhecido ou você tiver informado a senha em um site suspeito, troque-a pelo canal oficial, encerre sessões suspeitas e ative a autenticação em dois fatores.'],
+  ['E-mail', 'Cobrança · Fatura atualizada', 'O boleto anterior foi cancelado. Pague a segunda via anexada.', 'Anexo simulado: segunda-via.pdf', 'Conferir a fatura na área oficial do cliente', 'A empresa confirma que a fatura disponível no aplicativo tem outro beneficiário. O anexo é uma cobrança falsa.', 'Confira o beneficiário e o valor no aplicativo do banco e compare com a fatura obtida no canal oficial antes de pagar.'],
+];
+
+function triage() {
+  let incident = 0;
+  function openIncident() {
+    const [channel, sender, first, second, safe, outcome, lesson] = incidents[incident];
+    const choices = [
+      '<button class="choice-action" id="incident-reply">' + ['Responder e pedir a chave Pix', 'Fazer o Pix para ganhar tempo', 'Abrir o link para conferir a taxa', 'Responder ao e-mail para negociar', 'Abrir o anexo para pagar a segunda via'][incident] + '</button>',
+      '<button class="choice-action" id="incident-check">' + safe + '</button>',
+    ];
+    if (incident % 2) choices.reverse();
+    next.hidden = true;
+    feedback('');
+    setBar(incident, incidents.length);
+    stage.innerHTML = `
+      <div class="feed-lab">
+        <article class="chat-evidence incident-screen">
+          <div class="chat-head"><strong>${sender}</strong><small>${channel} simulado · Alerta ${incident + 1}/${incidents.length}</small></div>
+          <div class="chat-thread"><p>${first}</p><p>${second}</p>${channel === 'SMS' ? '<button class="choice-action" id="incident-preview">⌕ Inspecionar endereço</button><p id="incident-destination" hidden>Destino exibido: entregas-pendentes.example. O jogo não abre esse endereço.</p>' : ''}</div>
+        </article>
+        <section class="algorithm-board">
+          <p class="kicker">Mesa do plantão</p>
+          <h3 id="incident-title" tabindex="-1">Como você vai verificar o alerta?</h3>
+          <div class="verdict-actions">${choices.join('')}</div>
+          <div class="incident-report" id="incident-report" hidden></div>
+        </section>
+      </div>`;
+    if (channel === 'SMS') {
+      $('#incident-preview').onclick = () => {
+        $('#incident-destination').hidden = false;
+        $('#incident-preview').disabled = true;
+        focus('#incident-check');
+      };
+    }
+    $('#incident-reply').onclick = () => feedback('A mensagem ainda não foi verificada. Use um canal independente antes de agir.', 'warning');
+    $('#incident-check').onclick = () => {
+      $('#incident-reply').disabled = true;
+      $('#incident-check').disabled = true;
+      const report = $('#incident-report');
+      report.textContent = outcome + ' ' + lesson;
+      report.hidden = false;
+      feedback('Verificação concluída.', 'success');
+      setBar(incident + 1, incidents.length);
+      showNext(incident + 1 === incidents.length ? 'Arquivar plantão →' : 'Abrir próximo alerta →', () => {
+        incident++;
+        if (incident === incidents.length) finishMission(incidents.length + ' alertas verificados por canais independentes.');
+        else openIncident();
+      });
+      next.focus();
+    };
+    focus('#incident-title');
+  }
+  openIncident();
+}
+
+function connectEvidence() {
+  const fragments = [
+    ['Página da oferta', 'O formulário em painel-de-acesso.example pediu o e-mail de Júlia.'],
+    ['Registro oficial', 'A Conta Aurora não registrou bloqueio nem solicitou código.'],
+    ['Falso suporte', 'O botão do e-mail leva a painel-de-acesso.example.'],
+    ['Aviso de bloqueio', 'O e-mail diz que a conta será bloqueada e pede um código.'],
+  ];
+  const pairs = new Set(['0:2', '1:3']);
+  const linked = new Set();
+  let selected = null;
+  stage.innerHTML = witnessChat() + `
+    <p class="round-goal">Ligue os dois documentos que mostram o mesmo endereço. Depois, ligue o aviso de bloqueio ao registro que o desmente.</p>
+    <div class="record-grid">${fragments.map(([title, detail], index) =>
+      '<button class="evidence-paper record" data-link="' + index + '" aria-pressed="false"><strong>' + title + '</strong>' + detail + '</button>').join('')}</div>
+    <ol id="connections" class="connection-list"></ol>
+    <button class="primary" id="file-connections" disabled>Arquivar vínculos →</button>`;
+  wireWitness();
+  const cards = all('[data-link]');
+  cards.forEach((card, index) => {
+    card.onclick = () => {
+      if (selected === null) {
+        selected = index;
+        card.setAttribute('aria-pressed', 'true');
+        feedback('Primeiro documento selecionado. Escolha o documento que se relaciona a ele.');
+        return;
+      }
+      const first = selected;
+      selected = null;
+      cards[first].setAttribute('aria-pressed', 'false');
+      if (first === index) {
+        feedback('Seleção desfeita.');
+        return;
+      }
+      const key = [first, index].sort((a, b) => a - b).join(':');
+      if (!pairs.has(key)) {
+        feedback('Esses documentos não comprovam o vínculo procurado. Compare o endereço e a alegação de bloqueio.', 'warning');
+        return;
+      }
+      linked.add(key);
+      cards[first].disabled = true;
+      card.disabled = true;
+      const line = document.createElement('li');
+      line.textContent = fragments[first][0] + ' ↔ ' + fragments[index][0];
+      $('#connections').append(line);
+      const archive = $('#file-connections');
+      archive.disabled = linked.size !== pairs.size;
+      (cards.find((item) => !item.disabled) || archive).focus();
+      setBar(linked.size, pairs.size);
+      feedback('Vínculo registrado.', 'success');
+    };
+  });
+  $('#file-connections').onclick = () => finishMission('Endereço cruzado e bloqueio desmentido pelo registro oficial.');
+}
+
+function witnessChat() {
+  return `
     <details class="chat-evidence">
       <summary>▣ Abrir conversa recuperada · Evidência 07–A</summary>
       <div class="chat-head"><strong>Grupo do bairro</strong><small>WhatsApp simulado · registro exportado</small></div>
@@ -422,15 +569,10 @@ function arrange(prompt, records) {
         <p class="chat-out"><b>Júlia · Mensagem de voz</b><button id="play-witness" class="choice-action">▶ Ouvir relato</button><small id="witness-status" role="status"></small>
           <span id="witness-text">Depois de cadastrar meu e-mail, recebi uma mensagem que dizia ser do suporte. O botão apontava para o mesmo endereço da oferta e o texto pedia o código de acesso.</span><small>08:17 · Transcrição</small></p>
       </div>
-    </details>` : '';
-  stage.innerHTML = chat + '<p class="round-goal">' + prompt + '</p><div class="record-grid"></div>' +
-    '<article class="evidence-paper"><h3>Sequência do dossiê</h3><ol id="record-order"></ol></article>' +
-    '<div class="stage-actions"><button class="choice-action" id="undo-record" disabled>Retirar último</button>' +
-    '<button class="primary" id="verify-order" disabled>Validar sequência →</button></div>';
-  const buttons = new Map();
-  const undo = $('#undo-record');
-  const verify = $('#verify-order');
-  if (chat) {
+    </details>`;
+}
+
+function wireWitness() {
     const playWitness = $('#play-witness');
     let reading = false;
     playWitness.onclick = () => {
@@ -465,10 +607,23 @@ function arrange(prompt, records) {
       speech.speak(voice);
     };
   }
+
+function arrange(prompt, records) {
+  const order = [];
+  const shuffled = [2, 0, 1, 3].filter((index) => index < records.length);
+  stage.innerHTML = '<p class="round-goal">' + prompt + '</p><div class="record-grid"></div>' +
+    '<article class="chronology-board"><h3>Sequência do dossiê</h3><ol id="record-order"></ol></article>' +
+    '<div class="stage-actions"><button class="choice-action" id="undo-record" disabled>Retirar último</button>' +
+    '<button class="primary" id="verify-order" disabled>Validar sequência →</button></div>';
+  const buttons = new Map();
+  const undo = $('#undo-record');
+  const verify = $('#verify-order');
   function updateOrder() {
-    $('#record-order').replaceChildren(...order.map((index) => {
+    $('#record-order').replaceChildren(...records.map((_, position) => {
       const entry = document.createElement('li');
-      entry.textContent = records[index][0];
+      const index = order[position];
+      entry.textContent = index === undefined ? 'Registro ' + (position + 1) : records[index][0];
+      entry.className = index === undefined ? 'empty-record' : 'placed-record';
       return entry;
     }));
     buttons.forEach((button, index) => { button.disabled = order.includes(index); });
@@ -481,8 +636,12 @@ function arrange(prompt, records) {
     const button = document.createElement('button');
     button.className = 'evidence-paper record';
     const heading = document.createElement('strong');
+    const thumbnail = document.createElement('img');
+    thumbnail.className = 'timeline-thumb';
+    thumbnail.src = ['feed-art.svg#news', 'aviso.svg', 'feed-art.svg#search'][index];
+    thumbnail.alt = '';
     heading.textContent = label;
-    button.append(heading, document.createTextNode(copy));
+    button.append(thumbnail, heading, document.createTextNode(copy));
     button.onclick = () => {
       order.push(index);
       updateOrder();

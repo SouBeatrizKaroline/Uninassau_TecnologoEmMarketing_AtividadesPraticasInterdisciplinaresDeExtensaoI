@@ -11,6 +11,7 @@
     [12, 2, 'Agência'],
     [12, 6, 'Caixa de entrada'],
     [8, 6, 'Central de segurança'],
+    [5, 6, 'Plantão de golpes'],
     [3, 6, 'Arquivo central'],
   ];
   const moves = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
