@@ -1,47 +1,36 @@
 # Conexão Digital
 
-Jogo educativo para a ação de extensão **Tecnologia e Informação nas Redes Sociais**, do curso Tecnólogo em Marketing.
+Jogo educativo da ação de extensão **Tecnologia e Informação nas Redes Sociais**, do curso Tecnólogo em Marketing.
 
-## Proposta
+## Como jogar
 
-O projeto transforma a proposta em uma experiência de missão, com mapa de jornada, escolha de avatar, capítulos, XP, níveis, habilidades e feedback imediato. O conteúdo integra três trilhas:
+Abra `index.html` em um navegador moderno. O jogo funciona localmente, sem instalar dependências. Escolha um avatar e abra uma missão no mapa.
 
-- fake news e verificação antes do compartilhamento;
-- influência dos algoritmos, emoções e mensagens persuasivas;
-- privacidade, segurança e proteção de dados.
+| Missão | O que você faz |
+| --- | --- |
+| **O detetive do feed** | Examine perfil, imagem, legenda e reações de uma publicação simulada. Monte um dossiê com três pistas antes de cruzar o aviso com a fonte oficial. |
+| **Por trás da tela** | Acompanhe, passe ou peça para ver menos de cada publicação. Observe como suas ações alteram as próximas recomendações e os medidores de sinal e ruído. |
+| **Modo proteção** | Ocupe os três espaços do equipamento e teste sua configuração contra vazamento de senha, tentativa de login e link falso. |
 
-O conteúdo relaciona comunicação, Marketing e neuromarketing de forma educativa e responsável. Não há cadastro, câmera, coleta de senha ou necessidade de exposição pessoal. A pontuação fica somente no navegador por meio de `localStorage`.
+A primeira conclusão de cada missão rende 60 XP, uma estrela e um distintivo. As três estrelas liberam a conquista **Guardião digital**. Você pode jogar em qualquer ordem e revisitar as missões pelo mapa.
 
-## Como executar
+## Uso na ação de extensão
 
-Abra `index.html` em um navegador. A aplicação é estática e não precisa de servidor, banco de dados ou instalação de dependências.
+- **Antes da partida** — converse sobre a última vez em que um título urgente chamou a atenção de alguém.
+- **Durante a partida** — peça à turma para comparar dossiês, observar o efeito das interações no feed e testar combinações de defesa.
+- **Depois da partida** — convide cada pessoa a registrar no diário de bordo um cuidado que pretende adotar.
+
+As missões usam situações fictícias para explorar verificação de informações, persuasão em redes sociais e proteção de contas. O feed é uma simulação didática com regras próprias.
 
 ## Acessibilidade e privacidade
 
-O layout é responsivo, usa HTML semântico, foco visível, textos alternativos por meio de linguagem textual e `aria-live` para feedback dos desafios. O formulário não envia dados para nenhum servidor: a mensagem é apenas confirmada no dispositivo.
+Os controles funcionam por teclado e os avisos das missões são anunciados a leitores de tela. O avatar, o progresso e a reflexão ficam no armazenamento local do navegador. O jogo funciona sem cadastro, câmera ou senha.
 
 ## Publicações sugeridas
 
-1. Apresentação da plataforma e desafio sobre fake news.
-2. Quiz sobre fonte, data e urgência.
-3. Conteúdo sobre algoritmos e personalização do feed.
-4. Situação sobre emoções, publicidade e persuasão.
-5. Checklist de privacidade e autenticação em dois fatores.
-6. Convite para completar as trilhas e responder à avaliação.
-
-## Elementos de gamificação
-
-- Missões com mecânicas diferentes: investigação de publicação, organização de feed e montagem de proteção.
-- XP por descoberta, escolha e conclusão, sem transformar a experiência em um simples questionário.
-- Níveis e contagem de estrelas por trilhas concluídas.
-- Distintivos visuais para cada tema e conquista final.
-- Barra de progresso e feedback imediato após cada escolha.
-- Quatro avatares com nomes e identidade de jogador.
-- Linguagem de capítulo e habilidade para dar sentido à progressão.
-- Tela inicial orientada para descoberta, escolha e retorno à missão.
-- Menu de navegação com introdução narrativa e retorno ao mapa.
-- Cards interativos, pistas clicáveis, feed visual e checklist de defesa.
-
-## Próximas melhorias
-
-Adicionar formulário institucional autorizado, métricas anonimizadas de participação, versão publicada em hospedagem estática e materiais de divulgação em formato de carrossel.
+1. Apresente o jogo e convide o público a abrir um dossiê.
+2. Mostre como autoria, data e urgência ajudam a avaliar uma publicação.
+3. Compare dois percursos da simulação de feed.
+4. Discuta como emoções e persuasão influenciam cliques.
+5. Mostre o resultado de um teste de defesa com e sem segundo fator.
+6. Convide o público a completar as missões e registrar uma reflexão.

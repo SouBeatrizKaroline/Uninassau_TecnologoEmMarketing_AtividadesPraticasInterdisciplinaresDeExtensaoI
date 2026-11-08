@@ -1,1 +1,130 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Conexão Digital é um jogo educativo sobre escolhas no ambiente online."><title>Conexão Digital | Jornada</title><link rel="stylesheet" href="styles.css"></head><body><div class="intro" id="intro"><div class="intro-card"><p class="kicker">CONEXÃO DIGITAL · MISSÃO 01</p><div class="intro-mark">✦</div><h1>A rede mudou.<br>Agora é sua vez de decidir.</h1><p>Você recebeu acesso ao Centro de Conexões: um jogo de investigação, estratégia e proteção para navegar melhor pelo ambiente online.</p><button class="primary" id="begin">Começar a jornada <span>→</span></button><small>Seu progresso fica salvo somente neste dispositivo.</small></div></div><header class="topbar"><a class="brand" href="#inicio">CONEXÃO <span>DIGITAL</span></a><nav class="menu" aria-label="Menu principal"><a href="#inicio">Início</a><a href="#missao">Jornada</a><a href="#habilidades">Habilidades</a><a href="#sobre">Sobre</a></nav><div class="player"><button class="avatar-mini" id="avatar-mini" aria-label="Escolher avatar">✦</button><span><b id="player-name">Explorador</b><small id="level">Nível 1</small></span><div class="xp-box"><b id="xp">0</b> XP<div class="xp-track"><i id="xp-fill"></i></div></div></div></header><main><section class="start" id="inicio"><div class="start-copy"><p class="kicker">Jornada de letramento digital</p><h1>Seu feed.<br>Suas escolhas.</h1><p>Uma experiência de missões rápidas para aprender a observar, questionar e proteger o que importa no ambiente online.</p><button class="primary" id="start">Entrar na jornada <span>→</span></button><p class="note">Sem cadastro, câmera ou coleta de dados pessoais.</p></div><div class="hero-card"><span class="hero-star">★</span><div class="avatar avatar-main" id="hero-avatar">✦</div><strong id="hero-caption">Prepare-se para desbloquear novas habilidades.</strong><small>CONEXÃO DIGITAL · 2026</small></div></section><section class="profile" id="perfil"><div><p class="kicker">Seu perfil</p><h2>Escolha quem vai viver essa jornada</h2><p class="muted">O avatar fica salvo apenas neste dispositivo.</p></div><div class="avatars"><button class="avatar-option selected" data-avatar="✦" data-name="Explorador">✦<small>Explorador</small></button><button class="avatar-option" data-avatar="◈" data-name="Analista">◈<small>Analista</small></button><button class="avatar-option" data-avatar="✹" data-name="Estrategista">✹<small>Estrategista</small></button><button class="avatar-option" data-avatar="⬢" data-name="Guardião">⬢<small>Guardião</small></button></div></section><section class="journey" id="missao"><div class="section-title"><div><p class="kicker">Mapa da jornada</p><h2>Escolha sua próxima missão</h2></div><p class="progress-copy"><b id="completed">0</b>/3 capítulos</p></div><div class="path"><div class="path-line"></div><button class="mission" data-track="news"><span class="mission-num">01</span><span><small>OBSERVAR</small><strong>O detetive do feed</strong><label>Investigue uma publicação antes de compartilhar.</label></span><b>↗</b></button><button class="mission" data-track="influence"><span class="mission-num">02</span><span><small>QUESTIONAR</small><strong>Por trás da tela</strong><label>Organize um feed e perceba seus gatilhos.</label></span><b>↗</b></button><button class="mission" data-track="privacy"><span class="mission-num">03</span><span><small>PROTEGER</small><strong>Modo proteção</strong><label>Monte sua defesa digital em poucos passos.</label></span><b>↗</b></button></div></section><section class="play-area" id="play" hidden><div class="play-top"><span id="mission-name">CAPÍTULO</span><span id="step">1/1</span></div><div class="bar"><i id="bar-fill"></i></div><p class="scenario" id="scenario"></p><div class="question-line"><div class="avatar avatar-small" id="game-avatar">✦</div><h2 id="question"></h2></div><div class="game-stage" id="game-stage"></div><div class="choices" id="choices"></div><div class="result" id="result" hidden></div><button class="primary next" id="next" hidden>Continuar <span>→</span></button></section><section class="skills" id="habilidades"><p class="kicker">Painel de habilidades</p><h2>O que você já desbloqueou?</h2><div class="skill-grid"><div class="skill" id="skill-news"><span>⌕</span><b>Olhar crítico</b><small>0% desbloqueado</small></div><div class="skill" id="skill-influence"><span>◉</span><b>Leitura de feed</b><small>0% desbloqueado</small></div><div class="skill" id="skill-privacy"><span>◇</span><b>Modo proteção</b><small>0% desbloqueado</small></div><div class="skill final-skill"><span>★</span><b>Guardião digital</b><small>Complete a jornada</small></div></div></section><section class="reflection" id="sobre"><div><p class="kicker">Fechamento</p><h2>Transforme descoberta em atitude</h2><p class="muted">Registre uma ideia ou cuidado que pretende levar para suas redes. A resposta não sai do seu dispositivo.</p></div><form id="feedback-form"><textarea id="message" maxlength="280" required placeholder="Ex.: vou conferir a fonte antes de compartilhar..."></textarea><button class="primary" type="submit">Salvar reflexão</button><p id="form-status" role="status"></p></form></section></main><footer>Conexão Digital · uma experiência educativa sobre escolhas no ambiente online</footer><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Investigue, treine seu feed e proteja uma conta em Conexão Digital.">
+  <title>Conexão Digital | Central de Missões</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <dialog class="intro" id="intro" aria-labelledby="intro-title">
+    <div class="intro-card">
+      <p class="kicker">Conexão Digital · Sinal recebido</p>
+      <div class="intro-mark" aria-hidden="true">✦</div>
+      <h1 id="intro-title">Central de Missões</h1>
+      <p>Uma publicação suspeita, um feed tomado por ruído e uma conta sob ataque. Escolha seu avatar e entre em campo.</p>
+      <button class="primary" id="begin" autofocus>Iniciar operação <span aria-hidden="true">→</span></button>
+      <small>Seu progresso fica neste dispositivo.</small>
+    </div>
+  </dialog>
+  <header class="topbar">
+    <a class="brand" href="#inicio">CONEXÃO <span>DIGITAL</span></a>
+    <nav class="menu" aria-label="Menu principal">
+      <a href="#missao">Mapa</a>
+      <a href="#habilidades">Distintivos</a>
+      <a href="#sobre">Diário</a>
+    </nav>
+    <div class="player" aria-label="Status do jogador">
+      <button class="avatar-mini" id="avatar-mini" aria-label="Escolher avatar">✦</button>
+      <span><b id="player-name">Explorador</b><small id="level">Nível 1</small></span>
+      <div class="xp-box"><b id="xp">0</b> XP<div class="xp-track" aria-hidden="true"><i id="xp-fill"></i></div></div>
+      <span class="hud-stars" id="hud-stars" aria-label="0 de 3 estrelas">☆☆☆</span>
+    </div>
+  </header>
+  <main>
+    <section class="start" id="inicio">
+      <div class="start-copy">
+        <p class="kicker">Terminal 01 · Rede em alerta</p>
+        <h1>A rede está<br>nas suas mãos.</h1>
+        <p>Três missões para observar, questionar e proteger. Cada ação muda o que acontece na tela.</p>
+        <button class="primary" id="start">Abrir mapa de missões <span aria-hidden="true">→</span></button>
+        <p class="note">Jogo educativo · Sem cadastro</p>
+      </div>
+      <div class="hero-card">
+        <span class="hero-star" aria-hidden="true">★</span>
+        <div class="avatar avatar-main" id="hero-avatar" aria-hidden="true">✦</div>
+        <strong id="hero-caption"></strong>
+        <small>AVATAR ATIVO</small>
+      </div>
+    </section>
+    <section class="profile" id="perfil" aria-labelledby="profile-title">
+      <div>
+        <p class="kicker">Seleção de personagem</p>
+        <h2 id="profile-title" tabindex="-1">Escolha seu avatar</h2>
+        <p class="muted">Cada personagem tem uma especialidade. Todos podem jogar as três missões.</p>
+      </div>
+      <div class="avatars">
+        <button class="avatar-option" data-avatar="✦" data-name="Explorador" aria-pressed="false">✦<small>Explorador</small></button>
+        <button class="avatar-option" data-avatar="◈" data-name="Analista" aria-pressed="false">◈<small>Analista</small></button>
+        <button class="avatar-option" data-avatar="✹" data-name="Estrategista" aria-pressed="false">✹<small>Estrategista</small></button>
+        <button class="avatar-option" data-avatar="⬢" data-name="Guardião" aria-pressed="false">⬢<small>Guardião</small></button>
+      </div>
+    </section>
+    <section class="journey" id="missao" aria-labelledby="map-title">
+      <div class="section-title">
+        <div><p class="kicker">Mapa de operações</p><h2 id="map-title" tabindex="-1">Escolha sua próxima missão</h2></div>
+        <p class="progress-copy"><b id="completed">0</b>/3 missões</p>
+      </div>
+      <div class="path">
+        <div class="path-line" aria-hidden="true"></div>
+        <button class="mission" data-track="news">
+          <span class="mission-num">01</span>
+          <span><small>INVESTIGAÇÃO</small><strong>O detetive do feed</strong><span class="mission-description">Examine uma publicação viral e monte o dossiê.</span><span class="mission-status">Disponível · 60 XP</span></span>
+          <b aria-hidden="true">↗</b>
+        </button>
+        <button class="mission" data-track="influence">
+          <span class="mission-num">02</span>
+          <span><small>SIMULAÇÃO</small><strong>Por trás da tela</strong><span class="mission-description">Treine o algoritmo e recupere um feed útil.</span><span class="mission-status">Disponível · 60 XP</span></span>
+          <b aria-hidden="true">↗</b>
+        </button>
+        <button class="mission" data-track="privacy">
+          <span class="mission-num">03</span>
+          <span><small>DEFESA</small><strong>Modo proteção</strong><span class="mission-description">Equipe três defesas e resista às ameaças.</span><span class="mission-status">Disponível · 60 XP</span></span>
+          <b aria-hidden="true">↗</b>
+        </button>
+      </div>
+    </section>
+    <section class="play-area" id="play" aria-labelledby="question" hidden>
+      <div class="play-top">
+        <span id="mission-name"></span>
+        <button class="mission-action" id="back-to-map">← Voltar ao mapa</button>
+      </div>
+      <div class="bar" aria-hidden="true"><i id="bar-fill"></i></div>
+      <p class="scenario" id="scenario"></p>
+      <div class="question-line">
+        <div class="avatar avatar-small" id="game-avatar" aria-hidden="true">✦</div>
+        <h2 id="question" tabindex="-1"></h2>
+      </div>
+      <div class="game-stage" id="game-stage"></div>
+      <p class="result" id="result" role="status"></p>
+      <button class="primary next" id="next" hidden></button>
+    </section>
+    <section class="skills" id="habilidades" aria-labelledby="skills-title">
+      <p class="kicker">Sala de conquistas</p>
+      <h2 id="skills-title">Seus distintivos</h2>
+      <div class="skill-grid">
+        <div class="skill" id="skill-news"><span aria-hidden="true">⌕</span><b>Olhar crítico</b><small>Bloqueado</small></div>
+        <div class="skill" id="skill-influence"><span aria-hidden="true">◉</span><b>Leitura de feed</b><small>Bloqueado</small></div>
+        <div class="skill" id="skill-privacy"><span aria-hidden="true">◇</span><b>Modo proteção</b><small>Bloqueado</small></div>
+        <div class="skill final-skill"><span aria-hidden="true">★</span><b>Guardião digital</b><small>Complete as três missões</small></div>
+      </div>
+    </section>
+    <section class="reflection" id="sobre">
+      <div>
+        <p class="kicker">Diário de bordo</p>
+        <h2>O que você leva para suas redes?</h2>
+        <p class="muted">Registre um cuidado que pretende adotar. A reflexão fica neste dispositivo.</p>
+      </div>
+      <form id="feedback-form">
+        <label for="message">Minha reflexão</label>
+        <textarea id="message" maxlength="280" required placeholder="Ex.: vou conferir a fonte antes de compartilhar."></textarea>
+        <button class="primary" type="submit">Salvar reflexão</button>
+        <p id="form-status" role="status"></p>
+      </form>
+    </section>
+  </main>
+  <footer>Conexão Digital · Projeto de extensão em letramento digital</footer>
+</body>
+</html>
