@@ -19,7 +19,7 @@ Na atividade principal **Operação Fio Vermelho**, o jogador assume a credencia
 | **07 · Plantão de golpes** | Plantão de Golpes | Triagem forense de cinco golpes digitais: pedido de Pix por número desconhecido no WhatsApp, falso sequestro, link suspeito de taxa de entrega (SMS), e-mail com remetente falsificado (*spoofing*) e boleto adulterado. |
 | **08 · Operação Fio Vermelho** | Arquivo Central | Ouvir o relato recuperado de testemunha no WhatsApp e esticar o fio vermelho no quadro de cortiça para conectar as provas da operação. |
 
-Cada caso possui três etapas (**1/3 · Briefing**, **2/3 · Investigação / Perícia** e **3/3 · Relatório Forense**), além de **Lupa Forense** com dicas periciais e efeitos sonoros sintetizados via Web Audio API (com botão de mudo). A conclusão de cada caso rende **60 XP**, uma estrela, um carimbo de arquivamento e um distintivo. As oito estrelas desbloqueiam a insígnia máxima **Guardião Digital**.
+Cada caso possui três etapas (**1/3 · Briefing**, **2/3 · Investigação / Perícia** e **3/3 · Relatório Forense**), além de **Lupa Forense**, **fichas visuais periciais** (boletos adulterados com marcas d'água, terminal WHOIS em tempo real, polaroids com linhas de corte, boletins policiais e gravador de fita cassete pericial com etiqueta da prova) e efeitos sonoros sintetizados via Web Audio API (com botão de mudo). A conclusão de cada caso rende **60 XP**, uma estrela, um carimbo de arquivamento e um distintivo. As oito estrelas desbloqueiam a insígnia máxima **Guardião Digital**.
 
 ## Referências para o plantão
 
