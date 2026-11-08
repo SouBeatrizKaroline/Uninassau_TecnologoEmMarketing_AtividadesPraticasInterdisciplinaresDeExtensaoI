@@ -1,27 +1,91 @@
 const missions = {
   news: {
-    label: '01 · Investigação',
+    label: 'Boato no bairro',
     title: 'O detetive do feed',
     scene: 'DOSSIÊ ABERTO',
     badge: 'Olhar crítico',
     recap: 'A imagem era antiga, a autoria era desconhecida e a pressão para compartilhar escondia a falta de contexto.',
     play: investigate,
   },
+  timeline: {
+    label: 'Checagem de informação',
+    title: 'O recorte fora de hora',
+    scene: 'MESA DE CRONOLOGIA',
+    badge: 'Rastreador de contexto',
+    recap: 'O recorte veio de uma campanha antiga. A publicação recente alterou o contexto, e o boletim posterior desmentiu o aviso.',
+    play: () => arrange('Monte a linha do tempo do aviso, do registro mais antigo ao mais recente.', [
+      ['14 AGO · 09h', 'O jornal do bairro publica a imagem de uma campanha antiga.'],
+      ['03 SET · 08h', 'Um perfil recorta a imagem e anuncia uma mudança para hoje.'],
+      ['03 SET · 10h', 'O boletim oficial confirma que a mudança anunciada não ocorreu.'],
+    ]),
+  },
   influence: {
-    label: '02 · Simulação',
+    label: 'Recomendações do feed',
     title: 'Por trás da tela',
     scene: 'FEED EM TEMPO REAL',
     badge: 'Leitura de feed',
     recap: 'Suas interações mudaram as próximas sugestões. Na vida real, cada plataforma combina vários sinais para recomendar conteúdo.',
     play: trainFeed,
   },
+  advertising: {
+    label: 'Marketing e persuasão',
+    title: 'O anúncio de cinco minutos',
+    scene: 'CAPTURA DE ANÚNCIO',
+    badge: 'Leitura de campanha',
+    recap: 'A contagem regressiva, a promessa de exclusividade e o patrocínio escondido indicam técnicas de persuasão. Avalie os termos e a identidade de quem anuncia antes de comprar.',
+    play: () => inspectDocument({
+      title: 'Uma oferta aparece repetidamente no feed',
+      prompt: 'Marque três trechos que pressionam a compra ou dificultam identificar a publicidade.',
+      fields: [
+        ['Anunciante', 'Parceria paga aparece em cinza, depois de uma longa lista de hashtags.', true],
+        ['Imagem', 'O produto é fotografado sobre uma mesa.', false],
+        ['Chamada', 'Só quem faz parte do grupo recebe este preço.', true],
+        ['Relógio', 'Restam 05:00. O relógio reinicia quando a página recarrega.', true],
+        ['Formato', 'O anúncio foi publicado como vídeo vertical.', false],
+      ],
+      reference: 'O anúncio precisa ser reconhecível como publicidade. A pressão do relógio não substitui a conferência dos termos e da loja.',
+    }),
+  },
+  phishing: {
+    label: 'Phishing e roubo de conta',
+    title: 'O suporte que pediu o código',
+    scene: 'CAIXA DE ENTRADA',
+    badge: 'Perícia de e-mail',
+    recap: 'O domínio divergente, o botão que leva a outro endereço e o pedido de código sugerem phishing. Abra o serviço pelo canal conhecido e denuncie a mensagem suspeita.',
+    play: () => inspectDocument({
+      title: 'E-mail recebido · Sua conta será bloqueada',
+      prompt: 'Marque três evidências que justificam desconfiar deste e-mail.',
+      fields: [
+        ['Remetente', 'Suporte da Conta Aurora <alerta@aurora-verifica.example>', true],
+        ['Horário de envio', '09h14', false],
+        ['Prévia do botão “Reativar”', 'painel-de-acesso.example/aurora', true],
+        ['Pedido do suporte', 'Responda com o código de seis dígitos que chegou no seu celular.', true],
+        ['Assinatura', 'Equipe de atendimento', false],
+      ],
+      reference: 'Na consulta independente, o canal da Conta Aurora usa conta-aurora.example. O histórico da conta não mostra bloqueio. O suporte oficial não solicita o código por e-mail.',
+      comparison: 'Para comparar: uma mensagem esperada sobre um chamado que você abriu pode trazer o número do protocolo e orientar a consulta no aplicativo, sem pedir código. Confira se o protocolo aparece lá. Um nome conhecido no remetente, por si só, não autentica a mensagem.',
+    }),
+  },
   privacy: {
-    label: '03 · Defesa',
+    label: 'Privacidade e resposta',
     title: 'Modo proteção',
     scene: 'CONTA SOB ATAQUE',
     badge: 'Modo proteção',
     recap: 'A senha exclusiva, o segundo fator e a verificação pelo canal oficial bloquearam ameaças diferentes.',
     play: defend,
+  },
+  finale: {
+    label: 'Reconstrução do caso',
+    title: 'Operação Fio Vermelho',
+    scene: 'QUADRO DE EVIDÊNCIAS',
+    badge: 'Investigação integrada',
+    recap: 'O aviso reutilizado atraiu atenção, o anúncio pressionou a interação e o falso suporte tentou obter o código. Os documentos ligam os endereços à mesma operação, mas a identidade de quem está por trás continua em aberto.',
+    play: () => arrange('Reconstrua o caminho até a tentativa de roubo de conta. Use a origem de cada registro para conectar as peças.', [
+      ['Recorte de bairro', 'A publicação viral manda quem clicou para uma oferta exclusiva.'],
+      ['Oferta em destaque', 'A página painel-de-acesso.example recolhe um e-mail e promete enviar uma confirmação.'],
+      ['Mensagem de confirmação', 'O falso suporte aponta para painel-de-acesso.example e pede um código de acesso.'],
+      ['Registro de atendimento', 'O canal independente confirma que os endereços não pertencem ao serviço.'],
+    ]),
   },
 };
 
@@ -39,6 +103,13 @@ const result = $('#result');
 const next = $('#next');
 const missionIds = Object.keys(missions);
 const avatars = all('.avatar-option');
+$('#case-files').innerHTML = missionIds.map((id, index) => {
+  const { title, label } = missions[id];
+  return '<button class="mission" data-track="' + id + '"><span class="mission-num">' +
+    String(index + 1).padStart(2, '0') + '</span><span><small>NÍVEL ' + (index + 1) + '</small><strong>' +
+    title + '</strong><span class="mission-description">' + label +
+    '</span><span class="mission-status"></span></span></button>';
+}).join('');
 const missionButtons = all('.mission');
 const reward = 60;
 
@@ -85,6 +156,11 @@ let progress = loadProgress();
 let avatar = avatars.find((button) => button.dataset.name === read('name')) || avatars[0];
 let activeMission = null;
 
+function available(id) {
+  const index = missionIds.indexOf(id);
+  return progress.done.has(id) || index === 0 || progress.done.has(missionIds[index - 1]);
+}
+
 function focus(selector) {
   const element = $(selector);
   element.focus({ preventScroll: true });
@@ -93,13 +169,13 @@ function focus(selector) {
 
 function updateHud() {
   const { xp, done } = progress;
-  const level = Math.min(5, Math.floor(xp / reward) + 1);
+  const level = Math.min(missionIds.length + 1, Math.floor(xp / reward) + 1);
   $('#xp').textContent = xp;
   $('#level').textContent = 'Nível ' + level;
-  $('#xp-fill').style.width = (done.size === missionIds.length || level === 5 ? 100 : (xp % reward) / reward * 100) + '%';
+  $('#xp-fill').style.width = (done.size === missionIds.length || level === missionIds.length + 1 ? 100 : (xp % reward) / reward * 100) + '%';
   $('#completed').textContent = done.size;
   $('#hud-stars').textContent = '★'.repeat(done.size) + '☆'.repeat(missionIds.length - done.size);
-  $('#hud-stars').setAttribute('aria-label', done.size + ' de 3 estrelas');
+  $('#hud-stars').setAttribute('aria-label', done.size + ' de ' + missionIds.length + ' estrelas');
   $('#player-name').textContent = avatar.dataset.name;
   $('#hero-caption').textContent = routes[avatar.dataset.name];
   for (const selector of ['#avatar-mini', '#hero-avatar', '#game-avatar']) {
@@ -114,16 +190,20 @@ function updateHud() {
     const complete = done.has(id);
     button.classList.toggle('is-active', activeMission === id);
     button.classList.toggle('is-complete', complete);
+    button.disabled = !available(id);
     button.querySelector('.mission-status').textContent = complete
-      ? '★ Concluída · Rejogar'
-      : activeMission === id ? 'Em andamento' : 'Disponível · 60 XP';
+      ? '★ Arquivado · Reabrir'
+      : activeMission === id ? 'Em investigação' : button.disabled ? 'Lacrado' : 'Disponível · 60 XP';
     const skill = $('#skill-' + id);
-    skill.classList.toggle('unlocked', complete);
-    skill.querySelector('small').textContent = complete ? 'Desbloqueado' : 'Bloqueado';
+    if (skill) {
+      skill.classList.toggle('unlocked', complete);
+      skill.querySelector('small').textContent = complete ? 'Desbloqueado' : 'Bloqueado';
+    }
   });
   const won = done.size === missionIds.length;
   $('.final-skill').classList.toggle('unlocked', won);
-  $('.final-skill small').textContent = won ? 'Jornada concluída' : 'Complete as três missões';
+  $('.final-skill small').textContent = won ? 'Arquivo completo' : 'Complete os sete casos';
+  document.dispatchEvent(new Event('case-progress'));
 }
 
 function setBar(value, total) {
@@ -150,16 +230,26 @@ function returnToMap() {
 }
 
 function startMission(id) {
+  if (!available(id)) return;
   const mission = missions[id];
   activeMission = id;
   $('#play').hidden = false;
-  $('#mission-name').textContent = 'MISSÃO ' + mission.label.toUpperCase();
-  $('#scenario').textContent = mission.scene;
+  $('#mission-name').textContent = 'CASO ' + String(missionIds.indexOf(id) + 1).padStart(2, '0');
+  $('#case-stage').textContent = '1/3 · Briefing';
+  $('#scenario').textContent = mission.label.toUpperCase();
   $('#question').textContent = mission.title;
   next.hidden = true;
   feedback();
   setBar(0, 1);
-  mission.play();
+  stage.innerHTML = '<article class="mission-recap briefing"><p class="kicker">Mensagem da Inspetora Lia</p><p>' +
+    briefings[id] + '</p></article>';
+  showNext('Abrir evidências →', () => {
+    next.hidden = true;
+    $('#case-stage').textContent = '2/3 · Investigação';
+    $('#scenario').textContent = mission.scene;
+    mission.play();
+    focus('#question');
+  });
   updateHud();
   focus('#question');
 }
@@ -180,6 +270,7 @@ function finishMission(detail = '') {
   const stored = write('progress', JSON.stringify({ xp: progress.xp, done: [...progress.done] }));
   const nextId = missionIds.find((candidate) => !progress.done.has(candidate));
   $('#scenario').textContent = nextId ? 'MISSÃO CUMPRIDA' : 'CAMPANHA CONCLUÍDA';
+  $('#case-stage').textContent = '3/3 · Relatório';
   $('#question').textContent = nextId ? 'Operação bem-sucedida' : 'Você é Guardião digital!';
   stage.innerHTML = '<article class="mission-recap"><p class="chapter-reward">★ ' +
     (firstClear ? '+60 XP · ' + mission.badge : 'Missão concluída novamente') +
@@ -191,10 +282,125 @@ function finishMission(detail = '') {
   }
   setBar(1, 1);
   feedback(stored ? '' : 'O navegador bloqueou o salvamento. O progresso vale nesta sessão.', 'warning');
-  showNext(nextId ? 'Ir para a próxima missão →' : 'Voltar ao mapa →',
+  showNext(nextId ? 'Abrir próximo caso →' : 'Voltar ao arquivo →',
     nextId ? () => startMission(nextId) : returnToMap);
   updateHud();
   focus('#question');
+}
+
+const briefings = {
+  news: 'Uma publicação viral diz que um aviso do bairro mudou. Examine o post, separe pistas úteis e consulte o boletim oficial.',
+  timeline: 'A imagem do post também apareceu em um jornal antigo. Organize os registros para descobrir o que foi tirado de contexto.',
+  influence: 'O perfil que espalhou o recorte apareceu em várias recomendações. Teste como o feed reage aos seus cliques.',
+  advertising: 'Uma oferta começou a aparecer junto com o conteúdo viral. Procure sinais de publicidade pouco transparente e pressão pela compra.',
+  phishing: 'Quem abriu a oferta recebeu um e-mail de suporte. Analise os detalhes e compare com as informações da conta.',
+  privacy: 'O e-mail pode ter colocado a conta em risco. Monte uma defesa e verifique o que ela bloqueia.',
+  finale: 'Reúna os registros dos casos anteriores. O relatório precisa ligar a publicação viral ao falso suporte sem atribuir identidade a ninguém sem prova.',
+};
+
+function inspectDocument({ title, prompt, fields, reference, comparison }) {
+  const marked = new Set();
+  const expected = fields.filter(([, , clue]) => clue).length;
+  stage.innerHTML = '<p class="round-goal">' + prompt + '</p><article class="evidence-paper"><p class="paper-stamp">Documento simulado</p><h3></h3><div class="document-fields"></div></article>' +
+    '<p class="stage-tip" id="marked-count"></p><div class="stage-actions"><button class="primary" id="compare-document" disabled>Conferir com registro independente →</button></div>';
+  $('.evidence-paper h3').textContent = title;
+  const list = $('.document-fields');
+  const compare = $('#compare-document');
+  function updateMarks() {
+    $('#marked-count').textContent = marked.size + '/' + expected + ' trechos marcados';
+    compare.disabled = marked.size !== expected;
+    setBar(marked.size, expected + 1);
+  }
+  fields.forEach(([label, copy], index) => {
+    const button = document.createElement('button');
+    const heading = document.createElement('strong');
+    heading.textContent = label;
+    button.className = 'document-field';
+    button.setAttribute('aria-pressed', 'false');
+    button.append(heading, document.createTextNode(copy));
+    button.onclick = () => {
+      if (!marked.has(index) && marked.size === expected) {
+        feedback('Retire uma marcação para examinar outra hipótese.', 'warning');
+        return;
+      }
+      if (!marked.delete(index)) marked.add(index);
+      button.setAttribute('aria-pressed', marked.has(index));
+      feedback('');
+      updateMarks();
+    };
+    list.append(button);
+  });
+  compare.onclick = () => {
+    if ([...marked].some((index) => !fields[index][2])) {
+      feedback('Uma marcação descreve um detalhe comum. Releia o objetivo e substitua a marcação por um trecho que sustente sua suspeita.', 'warning');
+      return;
+    }
+    stage.innerHTML = '<article class="evidence-paper"><p class="paper-stamp">Conferência concluída</p><h3 id="comparison-title" tabindex="-1">O que o registro confirma</h3><p></p></article>';
+    $('.evidence-paper p:last-child').textContent = reference;
+    if (comparison) {
+      const example = document.createElement('p');
+      example.textContent = comparison;
+      $('.evidence-paper').append(example);
+    }
+    setBar(1, 1);
+    showNext('Arquivar perícia →', () => finishMission());
+    focus('#comparison-title');
+  };
+  updateMarks();
+}
+
+function arrange(prompt, records) {
+  const order = [];
+  const shuffled = [2, 0, 1, 3].filter((index) => index < records.length);
+  stage.innerHTML = '<p class="round-goal">' + prompt + '</p><div class="record-grid"></div>' +
+    '<article class="evidence-paper"><h3>Sequência do dossiê</h3><ol id="record-order"></ol></article>' +
+    '<div class="stage-actions"><button class="choice-action" id="undo-record" disabled>Retirar último</button>' +
+    '<button class="primary" id="verify-order" disabled>Validar sequência →</button></div>';
+  const buttons = new Map();
+  const undo = $('#undo-record');
+  const verify = $('#verify-order');
+  function updateOrder() {
+    $('#record-order').replaceChildren(...order.map((index) => {
+      const entry = document.createElement('li');
+      entry.textContent = records[index][0];
+      return entry;
+    }));
+    buttons.forEach((button, index) => { button.disabled = order.includes(index); });
+    undo.disabled = order.length === 0;
+    verify.disabled = order.length !== records.length;
+    setBar(order.length, records.length + 1);
+  }
+  shuffled.forEach((index) => {
+    const [label, copy] = records[index];
+    const button = document.createElement('button');
+    button.className = 'evidence-paper record';
+    const heading = document.createElement('strong');
+    heading.textContent = label;
+    button.append(heading, document.createTextNode(copy));
+    button.onclick = () => {
+      order.push(index);
+      updateOrder();
+      feedback('Registro anexado: ' + label + '.');
+      ([...buttons.values()].find((candidate) => !candidate.disabled) || verify).focus();
+    };
+    buttons.set(index, button);
+    $('.record-grid').append(button);
+  });
+  undo.onclick = () => {
+    const index = order.pop();
+    updateOrder();
+    buttons.get(index).focus();
+    feedback('Último registro retirado.');
+  };
+  verify.onclick = () => {
+    const mismatch = order.findIndex((index, position) => index !== position);
+    if (mismatch !== -1) {
+      feedback('Confira a posição ' + (mismatch + 1) + '. Use a data ou a ligação entre os registros para revisar a ordem.', 'warning');
+      return;
+    }
+    finishMission();
+  };
+  updateOrder();
 }
 
 const evidence = [

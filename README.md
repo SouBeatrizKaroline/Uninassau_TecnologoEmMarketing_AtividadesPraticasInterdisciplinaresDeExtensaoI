@@ -1,18 +1,22 @@
-# Conexão Digital
+# Conexão Digital — Arquivo de Casos
 
 Jogo educativo da ação de extensão **Tecnologia e Informação nas Redes Sociais**, do curso Tecnólogo em Marketing.
 
 ## Como jogar
 
-Abra `index.html` em um navegador moderno. O jogo funciona localmente, sem instalar dependências. Escolha um avatar e abra uma missão no mapa.
+Abra `index.html` em um navegador moderno. Escolha um avatar e explore o distrito com as setas do teclado ou os botões na tela. Ao chegar a uma entrada numerada, use **Investigar local** ou pressione Enter no mapa. Você também pode abrir a pasta correspondente no arquivo.
 
-| Missão | O que você faz |
+| Nível | Tarefa de investigação |
 | --- | --- |
-| **O detetive do feed** | Examine perfil, imagem, legenda e reações de uma publicação simulada. Monte um dossiê com três pistas antes de cruzar o aviso com a fonte oficial. |
-| **Por trás da tela** | Acompanhe, passe ou peça para ver menos de cada publicação. Observe como suas ações alteram as próximas recomendações e os medidores de sinal e ruído. |
-| **Modo proteção** | Ocupe os três espaços do equipamento e teste sua configuração contra vazamento de senha, tentativa de login e link falso. |
+| **01 · O detetive do feed** | Examine perfil, imagem, legenda e reações. Monte um dossiê e consulte o boletim oficial. |
+| **02 · O recorte fora de hora** | Organize três registros para identificar uma publicação tirada de contexto. |
+| **03 · Por trás da tela** | Interaja com as publicações e veja como o algoritmo simulado muda as recomendações. |
+| **04 · O anúncio de cinco minutos** | Marque trechos que ocultam o patrocínio ou pressionam a compra. |
+| **05 · O suporte que pediu o código** | Marque sinais de phishing e confronte o e-mail com o canal oficial e um exemplo de mensagem esperada. |
+| **06 · Modo proteção** | Equipe três defesas e teste a conta contra as ameaças simuladas. |
+| **07 · Operação Fio Vermelho** | Cruze os documentos para reconstruir como a operação tentou obter o código de acesso. |
 
-A primeira conclusão de cada missão rende 60 XP, uma estrela e um distintivo. As três estrelas liberam a conquista **Guardião digital**. Você pode jogar em qualquer ordem e revisitar as missões pelo mapa.
+Cada caso tem briefing, investigação e relatório. A primeira conclusão rende 60 XP, uma estrela, um distintivo e libera a próxima pasta. Casos arquivados podem ser reabertos. As sete estrelas liberam a conquista **Guardião digital**.
 
 ## Uso na ação de extensão
 
@@ -20,7 +24,7 @@ A primeira conclusão de cada missão rende 60 XP, uma estrela e um distintivo. 
 - **Durante a partida** — peça à turma para comparar dossiês, observar o efeito das interações no feed e testar combinações de defesa.
 - **Depois da partida** — convide cada pessoa a registrar no diário de bordo um cuidado que pretende adotar.
 
-As missões usam situações fictícias para explorar verificação de informações, persuasão em redes sociais e proteção de contas. O feed é uma simulação didática com regras próprias.
+O distrito e seus documentos contam uma história fictícia ambientada em Camaragibe, PE. As três trilhas da atividade são checagem de informação, influência das redes e proteção de dados. Os endereços de exemplo fazem parte das evidências exibidas como texto. O feed é uma simulação didática com regras próprias.
 
 ## Acessibilidade e privacidade
 
