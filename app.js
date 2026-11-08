@@ -566,14 +566,41 @@ function investigate() {
       return;
     }
     stage.innerHTML = `
-      <article class="mission-recap">
-        <p class="kicker">Consulta simulada · Canal oficial</p>
-        <h3 id="bulletin-title" tabindex="-1">O aviso original continua em vigor</h3>
-        <p>O boletim atualizado confirma que a mudança anunciada no post não ocorreu. O dossiê liga a imagem viral a uma campanha antiga.</p>
-      </article>`;
-    setBar(1, 1);
-    feedback('Dossiê validado. A publicação viral ficou marcada como enganosa.', 'success');
-    showNext('Arquivar dossiê →', () => finishMission());
+      <div class="verdict-board">
+        <article class="evidence-paper official-bulletin">
+          <p class="paper-stamp">Registro 01–B · Simulação</p>
+          <h3 id="bulletin-title" tabindex="-1">Boletim da comunidade</h3>
+          <p class="bulletin-date">CANAL OFICIAL · ATUALIZADO ÀS 10H</p>
+          <p>O aviso publicado no mural do bairro continua em vigor. Nenhuma alteração foi anunciada hoje.</p>
+          <p>O cartaz em circulação pertence a uma campanha de Vila do Farol, em agosto de 2024.</p>
+        </article>
+        <section class="forensics-board" aria-labelledby="verdict-title">
+          <p class="kicker">Registro do investigador</p>
+          <h3 id="verdict-title">Qual conclusão as provas sustentam?</h3>
+          <ul class="verdict-clues"><li>Autoria do post sem confirmação</li><li>Cartaz antigo de outro município</li><li>Legenda pressiona o compartilhamento</li></ul>
+          <div class="verdict-actions">
+            <button class="choice-action" data-verdict="confirm">A mudança foi confirmada</button>
+            <button class="choice-action" data-verdict="unknown">Ainda falta um registro confiável</button>
+            <button class="choice-action" data-verdict="misleading">O post usa o cartaz fora de contexto</button>
+          </div>
+        </section>
+      </div>`;
+    $('#case-stage').textContent = '2/3 · Veredito';
+    setBar(7, 8);
+    feedback('Boletim localizado. Cruze o registro oficial com as pistas do dossiê.');
+    all('[data-verdict]').forEach((button) => {
+      button.onclick = () => {
+        if (button.dataset.verdict === 'confirm') {
+          feedback('Confira a primeira nota do boletim. Ela confirma que o aviso anterior continua em vigor.', 'warning');
+          return;
+        }
+        if (button.dataset.verdict === 'unknown') {
+          feedback('O boletim atualizado esclarece o que ocorreu no bairro e identifica a origem do cartaz.', 'warning');
+          return;
+        }
+        finishMission('Veredito registrado: a publicação enganava ao reutilizar um cartaz antigo.');
+      };
+    });
     focus('#bulletin-title');
   };
   updateEvidence();

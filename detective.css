@@ -324,9 +324,15 @@ footer { background: #141e20; border-color: #3a4a46; }
 #dossier-slots li { padding: 7px 4px; border: 1px dashed #987951; color: #edc384; text-align: center; font: 700 .75rem var(--mono); }
 #dossier-slots .pinned { border-style: solid; background: #e8d4a4; color: #322722; }
 .dossier .primary { margin-top: 12px; }
+.verdict-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(12px, 3vw, 28px); align-items: start; }
+.official-bulletin h3 { margin: 14px 0 7px; font: 700 clamp(1.45rem, 4vw, 2.25rem) Georgia, serif; }
+.bulletin-date { border-block: 1px solid #a68154; padding-block: 7px; font: 750 .72rem var(--mono); }
+.verdict-clues { padding-left: 20px; color: var(--muted); font-size: .88rem; }
+.verdict-actions { display: grid; gap: 7px; }
+.verdict-actions button { justify-content: flex-start; text-align: left; }
 
 @media (max-width: 580px) {
-  .forensics { grid-template-columns: 1fr; }
+  .forensics, .verdict-board { grid-template-columns: 1fr; }
   .evidence-phone { width: min(100%, 325px); justify-self: center; }
 }
 
