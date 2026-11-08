@@ -1155,3 +1155,144 @@ footer {
   .forensics, .verdict-board, .feed-lab { grid-template-columns: 1fr; }
   .evidence-phone { width: min(100%, 325px); justify-self: center; }
 }
+
+/* VISUAL FORENSIC ARTIFACTS */
+.cassette-evidence-card {
+  margin-bottom: 16px;
+  border: 1px solid #7c6246;
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #251d16, #161f21);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+.cassette-photo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+}
+.cassette-thumb {
+  width: min(160px, 35%);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 2px solid #5a4530;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+.cassette-meta strong {
+  display: block;
+  font-size: 1.05rem;
+  color: #ffebd2;
+  margin: 4px 0 2px;
+}
+.cassette-meta small {
+  display: block;
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.4;
+}
+.evidence-tag-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border: 1px solid #c94a38;
+  border-radius: 3px;
+  background: rgba(201, 74, 56, 0.15);
+  color: #ff9b8e;
+  font: 800 .62rem var(--mono);
+  letter-spacing: .12em;
+}
+
+.incident-visual-box {
+  margin: 10px 14px 14px;
+  padding: 10px;
+  border: 1px solid #5c4b37;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.35);
+}
+.visual-header {
+  font: 800 .68rem var(--mono);
+  color: var(--cyan);
+  margin-bottom: 8px;
+  letter-spacing: .08em;
+}
+.incident-svg {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+.contact-card-sim {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid #4a6358;
+  border-radius: 6px;
+  background: #172421;
+}
+.sim-avatar {
+  font-size: 1.8rem;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #2a3d38;
+}
+.contact-card-sim strong { display: block; font-family: var(--mono); font-size: .92rem; color: #ffecd2; }
+.contact-card-sim small { display: block; font-size: .74rem; color: var(--muted); }
+.flag-warn {
+  margin-left: auto;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #541d17;
+  border: 1px solid #d93829;
+  color: #ffb4ab;
+  font: 800 .64rem var(--mono);
+}
+.raw-header-box {
+  padding: 10px;
+  border-radius: 4px;
+  background: #0f1618;
+  border: 1px solid #374a48;
+}
+.raw-header-box code {
+  display: block;
+  font-family: var(--mono);
+  font-size: .76rem;
+  color: #a8f0d2;
+  white-space: pre-wrap;
+  line-height: 1.4;
+}
+.header-note {
+  display: block;
+  margin-top: 6px;
+  font-size: .74rem;
+  color: #f7d499;
+}
+.polaroid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+.polaroid-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.whois-banner {
+  padding: 10px 14px;
+  background: #10191b;
+  border-bottom: 1px solid #364845;
+}
+.whois-svg {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  margin: 0 auto;
+}
